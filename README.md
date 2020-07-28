@@ -32,7 +32,17 @@ Mancho.sh has an integrated searching feature. If you want to use a command whic
 
 Run the following lines in a terminal :
 
-        TODO
+	curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp
+
+If you want to run mancho.sh with other users, execute :
+
+	sudo cp /tmp/mancho.sh.tmp /usr/local/bin/mancho.sh
+	sudo chmod 755 /usr/local/bin/mancho.sh
+
+Otherwise : *(make sure `~/.local/bin` stays in $PATH)*
+
+	cp /tmp/mancho.sh.tmp ~/.local/bin/mancho.sh
+	chmod 755 ~/.local/bin/mancho.sh
 
 ## How to use it ?
 
