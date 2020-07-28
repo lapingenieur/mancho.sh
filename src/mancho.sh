@@ -65,18 +65,18 @@ EOF
 }
 
 ########## DEFINE YOUR STUFF HERE
-# If you wanna have some personalized stuff, write it below. Take the following lines as example.
+# If you wanna have some personalized stuff, write it below. Take the following lines as an example.
 
 	### if there is 256 color mode support, declare an env variable called TERM_COLOR which I use in my vim config
-if test "$TERM"
-then
-	case "$TERM" in
-		xterm-color | *-256color ) export TERM_COLOR=1 ;;
-		* ) export TERM_COLOR=0 ;;
-	esac
-else
-	export TERM="linux" TERM_COLOR=0
-fi
+#if test "$TERM"
+#then
+#	case "$TERM" in
+#		xterm-color | *-256color ) export TERM_COLOR=1 ;;
+#		* ) export TERM_COLOR=0 ;;
+#	esac
+#else
+#	export TERM="linux" TERM_COLOR=0
+#fi
 
 ##### Main Prog
 
