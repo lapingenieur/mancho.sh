@@ -59,9 +59,8 @@ help(){
 USAGE :
 
 	mancho.sh [--desc] [OPTION]
-	mancho.sh --mancho OPTION...
-	mancho.sh MAN_OPTIONS...
-	mancho.sh -- MAN_OPTIONS...
+	mancho.sh MAN_OPTION...
+	mancho.sh -- MAN_OPTION...
 
 DESCRIPTION :
 
@@ -140,7 +139,23 @@ EOF
 }
 
 quickhelp(){
-	echo "TODO : quick-help"
+	version
+	echo "\n================================\n"
+	cat << EOF
+USAGE :
+   mancho.sh [--desc] [OPTION]... [-- MAN_OPTION...]
+   mancho.sh MAN_OPTION...
+
+OPTIONS :
+   --sync			syncronize lists
+   --desc			description mode
+   -h, --help			print help page
+   -q, --quick, --quick-help	print quick help
+   -H, --man-help		print man's help
+   --				give following args to man
+
+More infos : mancho.sh --help
+EOF
 }
 
 ########## DEFINE YOUR STUFF HERE
