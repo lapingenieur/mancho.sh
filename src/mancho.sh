@@ -2,7 +2,7 @@
 # 
 # mancho.sh - friendly interface for man
 
-vers=1.2.2	# mancho.sh's version
+vers=1.2.3	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found --desc parameter in $1 (ONLY $1), then use description mode
 
@@ -42,6 +42,8 @@ version(){
 
 help(){
 	less << EOF
+
+
 	                                             /\$\$                             \$\$\\
 	                                            | \$\$                             \$\$ |
 	 /\$\$\$\$\$\$/\$\$\$\$   /\$\$\$\$\$\$  /\$\$\$\$\$\$\$   /\$\$\$\$\$\$\$| \$\$\$\$\$\$\$   /\$\$\$\$\$\$     \$\$\$\$\$\$\$\\ \$\$\$\$\$\$\$\\
@@ -52,6 +54,7 @@ help(){
 	|__/ |__/ |__/ \\_______/|__/  |__/ \\_______/|__/  |__/ \\______/ \\_,\\_______/ \\__|  \\__|
 
                                         mancho.sh - friendly interface for man   v$vers
+
 
 USAGE :
 
@@ -121,6 +124,18 @@ FAQ :
    Q: Why are there files for the lists, can't just make the list at each run ?
    A: These lists can be very long (several hundreds of lines) and it takes a bit of time to make them. It is more efficient to create a
         daily list and output it into a file than wait before using mancho.sh everytimes.
+
+ABOUT :
+
+   mancho.sh - friendly interface for man
+   version : $vers
+   program and help pages written by : lapingenieur
+   github repo : https://github.com/lapingenieur/mancho.sh
+
+SEE ALSO :
+
+   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho.sh
+   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh
 EOF
 }
 
