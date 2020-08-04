@@ -2,7 +2,7 @@
 # 
 # mancho.sh - friendly interface for man
 
-vers=1.2.3	# mancho.sh's version
+vers=1.2.4	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found --desc parameter in $1 (ONLY $1), then use description mode
 
@@ -103,6 +103,10 @@ OPTIONS :
    -H, --man-help
       Print man's help page (pass "-h" options to man)
 
+   --mk-config
+      Print a configuration example to the config file.
+      (the generated text is in fact just comments)
+
    --
       Give all the following arguments to man
 
@@ -158,19 +162,40 @@ More infos : mancho.sh --help
 EOF
 }
 
-########## DEFINE YOUR STUFF HERE
-# If you wanna have some personalized stuff, write it below. Take the following lines as an example.
+mkconfig(){
+	if test -s ~/.config/mancho.sh/config.sh
+	then
+		echo -n "\033[0;31;1mThere is already a config file. \033[0mOverwrite ? (y/n) : "
+		read awnser
+		test "$awnser" != "y" && test "$awnser" != "yes" && exit
+	fi
+	echo -n "Creating ~/.config/mancho.sh if didn't exist"
+	mkdir -p ~/.config/mancho.sh/
+	echo " and redirecting the default configuration to the wanted file..."
+	cat > ~/.config/mancho.sh/config.sh << EOF
+# This is an example of bash scripting that exports a 'TERM_COLOR' variable with values :
+#    - 1 if found xterm-color or *-256color in \$TERM
+#    - 0 if not
+# If the TERM variable is not defined, it defines it to be 'linux' (then TERM_COLOR equals 0)
+# Uncomment the next lines to execute them.
 
-	### if there is 256 color mode support, declare an env variable called TERM_COLOR which I use in my vim config
-#if test "$TERM"
+#if test "\$TERM"
 #then
-#	case "$TERM" in
+#	case "\$TERM" in
 #		xterm-color | *-256color ) export TERM_COLOR=1 ;;
 #		* ) export TERM_COLOR=0 ;;
 #	esac
 #else
 #	export TERM="linux" TERM_COLOR=0
 #fi
+EOF
+	echo "All done. (configuration file path : ~/.config/mancho.sh/config.sh)"
+	echo "NOTE: the default configuration file is in fact just a bash example, containing only comments."
+	echo "      You should modify it instead of changing the main-code file."
+	echo "      Config. Ex. : define the MANPAGER variable (effect : changes the manual page viewer)"
+}
+
+test -f ~/.config/mancho.sh/config.sh && . ~/.config/mancho.sh/config.sh
 
 ##### Main Prog
 
@@ -184,7 +209,7 @@ fi
 if test "$*"		## arguments decoding
 then
 	case "$1" in			## if argument recognized :
-		"--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--man-help" | "--" )
+		"--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--man-help" | "--" | "--mk-config" | "--mk-config" )
 			until test $# = 0 || test "$ok" = 1
 			do
 				case $1 in
@@ -192,6 +217,7 @@ then
 					"-h" | "--help" | "-help" ) help ;;
 					"-q" | "--quick" | "--quick-help" ) quickhelp ;;
 					"-H" | "--man-help" ) man -h ;;
+					"--mk-config" | "--mk-config" ) mkconfig ;;
 					"--" ) shift ; man $* ; ok=1 ;;
 					* ) man $1 ;;
 				esac
