@@ -2,27 +2,19 @@
 # 
 # mancho.sh - friendly interface for man
 
-vers=1.2.4	# mancho.sh's version
+###### Variables Default Settings
+
+# do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
+
+vers=1.2.5	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found --desc parameter in $1 (ONLY $1), then use description mode
-
-################################
-#   HERE : Variable settings   #
-################################
-
-verbose=1	# if set to 1, will talk a little bit more ;;			values : 1 = verbose		;	2 = don't verbose	;	default = 1
-fzf_height=75	# default fzf height (in percent WITHOUT the percent) ;;	values : between 0 and 100					;	default = 75
-		# set a customized manpager (optional) ;;			values : a command which can display the manual page		;	default = [commented]
-#export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
-
-		# This next variable defines fzf's format. Don't touch this variable unless you don't really know what you're doing
-		#   (or unless you follow the indications from my github page :D).
-		# values : default ="--height=50% --border --layout=reverse --prompt='Manual: ' --preview='echo {1} | sed -E \"s/^\((.+)\)/\1/\" | xargs -I{S} man -Pcat {S} {2} 2>/dev/null'"
+verbose=1	# if set to 1, will talk a little bit more
+fzf_height=75	# default fzf height (in percent)
+		# below : default fzf options
 export FZF_DEFAULT_OPTS="--height=50% --border --layout=reverse --prompt='Manual: ' --preview='echo {1} | sed -E \"s/^\((.+)\)/\1/\" | xargs -I{S} man -Pcat {S} {2} 2>/dev/null'"
 
-################################
-#   END OF variable settings   #
-################################
+grep -qE "^( |\t)*verbose=[01]( |\t|$)" ~/.config/mancho.sh/config.sh && verbose=$(grep -oE "^( |\t)*verbose=[01]" ~/.config/mancho.sh/config.sh | grep -E "=." | grep -oE ".$")
 
 ##### functions define
 
@@ -165,37 +157,38 @@ EOF
 mkconfig(){
 	if test -s ~/.config/mancho.sh/config.sh
 	then
-		echo -n "\033[0;31;1mThere is already a config file. \033[0mOverwrite ? (y/n) : "
+		echo -n "\033[0;31;1mThere is already a config file. \033[0;32m(your old configuration will be saved)\033[0m Overwrite ? (y/n) : "
 		read awnser
 		test "$awnser" != "y" && test "$awnser" != "yes" && exit
+		mv ~/.config/mancho.sh/config.sh /tmp/mancho.sh.config.save.$$
+		echo "\033[0;36mSaved your old config file in /tmp/mancho.sh.config.save.$$\033[0m"
 	fi
-	echo -n "Creating ~/.config/mancho.sh if didn't exist"
+	test $verbose = 1 && echo -n "Creating ~/.config/mancho.sh if didn't exist"
 	mkdir -p ~/.config/mancho.sh/
-	echo " and redirecting the default configuration to the wanted file..."
+	test $verbose = 1 && echo " and redirecting the default configuration to the wanted file..."
 	cat > ~/.config/mancho.sh/config.sh << EOF
-# This is an example of bash scripting that exports a 'TERM_COLOR' variable with values :
-#    - 1 if found xterm-color or *-256color in \$TERM
-#    - 0 if not
-# If the TERM variable is not defined, it defines it to be 'linux' (then TERM_COLOR equals 0)
-# Uncomment the next lines to execute them.
-
-#if test "\$TERM"
-#then
-#	case "\$TERM" in
-#		xterm-color | *-256color ) export TERM_COLOR=1 ;;
-#		* ) export TERM_COLOR=0 ;;
-#	esac
-#else
-#	export TERM="linux" TERM_COLOR=0
-#fi
+# List of the internal variables you may want to change :
+# NAME :		DESCRIPTION :
+# verbose		verbosing option
+# desc			1 = use always description mode
+# fzf_height		fzf's height
+# fzf_options		fzf settings, merged into FZF_DEFAULT if set
+#
+# List of the environment variables you may want to change :
+#    Note : you need to define these variables using the 'export' command (see your shell's manual)
+# NAME :		DESCRIPTION :
+# FZF_DEFAULT_OPTS	fzf settings (prefer using the fzf_options internal variable)
+# MANPAGER		wanted program or script to print the manual page
 EOF
 	echo "All done. (configuration file path : ~/.config/mancho.sh/config.sh)"
-	echo "NOTE: the default configuration file is in fact just a bash example, containing only comments."
-	echo "      You should modify it instead of changing the main-code file."
-	echo "      Config. Ex. : define the MANPAGER variable (effect : changes the manual page viewer)"
+	echo "You should modify it instead of changing the main-code file."
 }
 
+##### Include Shell Config file
+
 test -f ~/.config/mancho.sh/config.sh && . ~/.config/mancho.sh/config.sh
+fzf_height=$(echo "$fzf_height" | sed "s/%$//g") # corrects fzf_height if ends with %
+test "$fzf_options" && export FZF_DEFAULT_OPTS="$fzf_options"
 
 ##### Main Prog
 
@@ -255,7 +248,7 @@ else			## list file making
 	case "$desc" in
 		"0" ) list=`grep -vE "^:: " ~/.config/mancho.sh/list` ;;
 		"1" ) list=`grep -vE "^:: " ~/.config/mancho.sh/list.desc` ;;
-		* ) echo "\033[0;31;1mERR (critical): unknown description value [\$desc='$desc'].\n\033[0;33;1m  Which method to use ?0 ) standart, 1 ) description, q ) exit\033[0;36;1m"
+		* ) echo "\033[0;33;1mERR: unknown description value [\$desc='$desc'].\n\033[0;33;1m  Which method to use ? 0 ) standart, 1 ) description, q ) exit\033[0;36;1m"
 			read -p "=> " awnser
 			echo -n "\033[0m"
 			case "$awnser" in
@@ -273,3 +266,4 @@ else			## list file making
 		* ) man $manual ;;
 	esac
 fi
+echo ""
