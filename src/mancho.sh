@@ -6,7 +6,7 @@
 
 # do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
 
-vers=1.2.5	# mancho.sh's version
+vers=1.2.7	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found --desc parameter in $1 (ONLY $1), then use description mode
 verbose=1	# if set to 1, will talk a little bit more
@@ -14,15 +14,27 @@ fzf_height=75	# default fzf height (in percent)
 		# below : default fzf options
 export FZF_DEFAULT_OPTS="--height=50% --border --layout=reverse --prompt='Manual: ' --preview='echo {1} | sed -E \"s/^\((.+)\)/\1/\" | xargs -I{S} man -Pcat {S} {2} 2>/dev/null'"
 
-grep -qE "^( |\t)*verbose=[01]( |\t|$)" ~/.config/mancho.sh/config.sh && verbose=$(grep -oE "^( |\t)*verbose=[01]" ~/.config/mancho.sh/config.sh | grep -E "=." | grep -oE ".$")
+if test -f ~/.config/mancho.sh/config.sh
+then
+	grep -qE "^( |\t)*verbose=[01]( |\t|$)" ~/.config/mancho.sh/config.sh && verbose=$(grep -oE "^( |\t)*verbose=[01]" ~/.config/mancho.sh/config.sh | grep -E "=." | grep -oE ".$")
+fi
 
 ##### functions define
 
 sync(){
-	echo -n "[1/2] Creating today's standard cache file..."
+	echo -n "[1/3] Searching for updates..."
+	upd_vers="$(curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version | head -n 1)"
+	if test "$upd_vers" = "$vers"
+	then
+		echo "Done : Already up to date."
+	else
+		echo "Done."
+		echo "\033[0;36;1mThere is an available update \033[1;34;1m(Update version : v$(curl -s https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version) ; Current version : v$vers).\033[0m"
+	fi
+	echo -n "[2/3] Creating today's standard cache file..."
 	echo ":: $(date '+%dd%mm%yy')\n(0)    quit\n$(apropos -s ${SECTION:-''} ${@:-.} | grep -v -E '^.+ \(0\)' | awk '{print $2 "    " $1}' | sed "s/ ([1-9])//g" | sort)" > ~/.config/mancho.sh/list
 	echo " Done."
-	echo -n "[2/2] Creating today's expanded cache file..."
+	echo -n "[3/3] Creating today's expanded cache file..."
 	echo ":: $(date '+%dd%mm%yy')\n(0)    quit\n$(apropos -s ${SECTION:-''} ${@:-.} | grep -v -E '^.+ \(0\)' | awk '{print $2 "    " $0}' | sed "s/ ([1-9])//g" | sort)" > ~/.config/mancho.sh/list.desc
 	echo " Done."
 	synced=1
@@ -179,6 +191,7 @@ mkconfig(){
 # NAME :		DESCRIPTION :
 # FZF_DEFAULT_OPTS	fzf settings (prefer using the fzf_options internal variable)
 # MANPAGER		wanted program or script to print the manual page
+
 EOF
 	echo "All done. (configuration file path : ~/.config/mancho.sh/config.sh)"
 	echo "You should modify it instead of changing the main-code file."
