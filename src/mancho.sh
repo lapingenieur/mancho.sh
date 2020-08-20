@@ -149,24 +149,13 @@ FAQ :
    Q: mancho.sh tells me I need to update, but HOW can I exactly ?
    A: Well, for now you would just reinstall it by hand following these steps ( >>> an updating function will probably come !! <<< ) :
 
-       FIRST METHOD : if you still have the directory where yo udownloaded the first time
+	- remove the old executable mancho.sh file
+	  (how to find it ? execute 'which mancho.sh' and you'll get its location)
+	- execute these commands at a shell :
 
-          - go to the directory where you downloaded all the stuff
-	  - type 'git pull' in your shell
-	  - execute these commands at a shell :
-
-	      cp /tmp/mancho.sh.tmp ~/.local/bin/mancho.sh
-	      chmod 755 ~/.local/bin/mancho.sh
-
-       SECOND METHOD : if you deleted the directory where yo udownloaded the first time
-
-	  - remove the old executable mancho.sh file
-	    (how to find it ? execute 'which mancho.sh' and you''l get its location)
-	  - execute these commands at a shell :
-
-	      curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp
-	      cp /tmp/mancho.sh.tmp ~/.local/bin/mancho.sh
-	      chmod 755 ~/.local/bin/mancho.sh
+	    curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp
+	    cp /tmp/mancho.sh.tmp ~/.local/bin/mancho.sh
+	    chmod 755 ~/.local/bin/mancho.sh
 
 ABOUT :
 
@@ -234,6 +223,28 @@ EOF
 	echo "You should modify it instead of changing the main-code file."
 }
 
+update(){
+	upd_vers="$(curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version | head -n 1)"
+	if test "$upd_vers" = "$vers" && test "$1" != "--force"
+	then
+		echo "\033[0;32mYour mancho.sh is already up to date.\033[0m"
+	else
+		echo "\033[0;32mDownloading latest version of mancho.sh script...\033[0m\n"
+		curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp.$$
+		echo ""
+		echo "\033[0;34m################################################################\033[0m"
+		echo ""
+		echo "\033[0;32;1;4mDownloading done !\033[0;36;1m Now, you need to enter a few commands \033[0;35m(mancho.sh would panic if it did these...)\033[0;36;1m :\033[0;1m"
+		cat << EOF
+
+   mv /tmp/mancho.sh.tmp.$$ ~/.local/bin/mancho.sh
+   chmod 755 ~/.local/bin/mancho.sh
+
+EOF
+		echo "\033[0;36;1mThis will overwrite your actual mancho.sh file, and end the update (config files will stay)\033[0m"
+	fi
+}
+
 ##### Include Shell Config file
 
 test -f ~/.config/mancho.sh/config.sh && . ~/.config/mancho.sh/config.sh
@@ -252,7 +263,7 @@ fi
 if test "$*"		## arguments decoding
 then
 	case "$1" in			## if argument recognized :
-		"--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--man-help" | "--" | "--mk-config" )
+		"--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--man-help" | "--" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" )
 			until test $# = 0 || test "$ok" = 1
 			do
 				case $1 in
@@ -262,6 +273,8 @@ then
 					"--man-help" ) man -h ;;
 					"--mk-config" ) mkconfig ;;
 					"--" ) shift ; man $* ; ok=1 ;;
+					"--upd" | "--update" ) update ;;
+					"--upd-f" | "--update-force" ) update --force ;;
 					* ) man $1 ;;
 				esac
 				shift
