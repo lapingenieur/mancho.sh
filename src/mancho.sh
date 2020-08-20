@@ -66,6 +66,15 @@ USAGE :
 	mancho.sh MAN_OPTION...
 	mancho.sh -- MAN_OPTION...
 
+IMPORTANT NOTE:
+
+   Some people think the 'man' pages/program are a reference to 'boys', 'male gender', and they define it as 'racism' and 'sexism'.
+
+   This program, and in particular this long help page, uses frequently the word 'man' as a reference to the 'man' software or as a shorter
+   word for 'manual' when talking about 'manual pages' (this becomes 'man pages').
+
+   It is in NO CASE RACISM or SEXISM. These are just ACTUAL SOFTWARE NAMES and very used DIMINUTIVES.
+
 DESCRIPTION :
 
    Mancho.sh is a friendly interface for man. If you call it without any option (or just with "--desc"), mancho.sh will update its command
@@ -98,13 +107,14 @@ OPTIONS :
       DESCription, activate description mode : if no more arguments, will do a fzf search within the description of each command.
       Not really useful unless you search for a description and not for a command name.
 
-   -h, --help (and -help)
-      Print this help page (mancho.sh's help page)
+   -h, --help, -help, --quick, --quick-help
+      Print a quick/short help page (mancho.sh's quick help page)
 
-   -q, --quick, --quick-help
-      Print a quick help (mancho.sh's quick help page)
+   -H, --long-help
+      Print this (long) help page (mancho.sh's long help page)
+      NOTE: this is actually what would be mancho'sh manual page
 
-   -H, --man-help
+   --man-help
       Print man's help page (pass "-h" options to man)
 
    --mk-config
