@@ -62,7 +62,7 @@ help(){
 
 USAGE :
 
-	mancho.sh [--desc] [OPTION]
+	mancho.sh [OPTION] [MAN_PAGE]
 	mancho.sh MAN_OPTION...
 	mancho.sh -- MAN_OPTION...
 
@@ -136,11 +136,37 @@ FILES :
 
    These two files are updated automaticaly every day or if mancho.sh receives "--sync".
 
+      ~/.config/mancho.sh/config.sh
+         configuration file written in bash scripting. It is executed before the main part but after the first variable settings.
+	 NOTE: this file is actually executed, so you can do whatever you want with this config file.
+
 FAQ :
 
    Q: Why are there files for the lists, can't just make the list at each run ?
    A: These lists can be very long (several hundreds of lines) and it takes a bit of time to make them. It is more efficient to create a
         daily list and output it into a file than wait before using mancho.sh everytimes.
+
+   Q: mancho.sh tells me I need to update, but HOW can I exactly ?
+   A: Well, for now you would just reinstall it by hand following these steps ( >>> an updating function will probably come !! <<< ) :
+
+       FIRST METHOD : if you still have the directory where yo udownloaded the first time
+
+          - go to the directory where you downloaded all the stuff
+	  - type 'git pull' in your shell
+	  - execute these commands at a shell :
+
+	      cp /tmp/mancho.sh.tmp ~/.local/bin/mancho.sh
+	      chmod 755 ~/.local/bin/mancho.sh
+
+       SECOND METHOD : if you deleted the directory where yo udownloaded the first time
+
+	  - remove the old executable mancho.sh file
+	    (how to find it ? execute 'which mancho.sh' and you''l get its location)
+	  - execute these commands at a shell :
+
+	      curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp
+	      cp /tmp/mancho.sh.tmp ~/.local/bin/mancho.sh
+	      chmod 755 ~/.local/bin/mancho.sh
 
 ABOUT :
 
@@ -151,8 +177,8 @@ ABOUT :
 
 SEE ALSO :
 
-   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho.sh
-   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh
+   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho.sh			(where comes the idea)
+   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh			(where comes the idea, but using dmenu instead of fzf)
 EOF
 }
 
@@ -231,8 +257,8 @@ then
 			do
 				case $1 in
 					"--sync" ) version ; echo "" ; sync ;;
-					"-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" ) help ;;
-					"-H" | "--long-help" ) quickhelp ;;
+					"-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" ) quickhelp ;;
+					"-H" | "--long-help" ) help ;;
 					"--man-help" ) man -h ;;
 					"--mk-config" ) mkconfig ;;
 					"--" ) shift ; man $* ; ok=1 ;;
