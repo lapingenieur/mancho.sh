@@ -2,13 +2,19 @@
 
 ![mancho.sh-logo2](mancho_logo2.png)
 
-## IMPORTANT NOTE:
+## IMPORTANT NOTE: (and name explainations :D)
 
-> Some people think the 'man' pages/program are a reference to 'boys', 'male gender', and they define it as 'racism' and 'sexism'.
+> Some people think the `man` pages/program are a reference to `male gender`, `boys`, and they define it as `racism` and `sexism`.
 > 
-> This program, and in particular this long help page, uses frequently the word 'man' as a reference to the 'man' software or as a shorter word for 'manual' when talking about 'manual pages' (this becomes 'man pages').
+> This program, and in particular help pages, uses frequently the word `man` as a reference to the `man` software or as a shorter word for `manual` when talking about `manual pages` (this becomes `man pages`).
 > 
-> It is in NO CASE RACISM or SEXISM. These are just ACTUAL SOFTWARE NAMES and DIMINUTIVES.
+> Plus, the program name is `mancho.sh`. This could reflect the word `macho` (which doesn't improve our case ...), but I got explainations !
+> * First, `mancho.sh` is highly inspired by a script called `macho.sh` (source [here](https://gitlab.com/dwt1/dotfiles/-/blob/master/macho.sh))
+> * Then, *mancho* is a kind of play on words :
+>   * ***man**cho.sh* relfects the original `macho.sh` script _and_ the `man` program
+>   * while ***mancho**.sh* tells about a french word, **manchot**, which is kind of **penguin** (and linux's mascot [is a penguin](https://en.wikipedia.org/wiki/Tux_(mascot)))
+> 
+> **It is in NO CASE RACISM or SEXISM. These are just ACTUAL SOFTWARE NAMES and DIMINUTIVES.**
 
 ## What is mancho.sh ?
 
