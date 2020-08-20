@@ -1,4 +1,5 @@
-# NOTE: this file is the direct output of mancho.sh --quick-help
+> NOTE: this file is the direct output of mancho.sh --quick-help
+> mancho.sh output version : v1.3.0
 
         mancho.sh : friendly interface for man
         mancho.sh script's version : 1.3.0
