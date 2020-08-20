@@ -16,23 +16,31 @@
 > 
 > **It is in NO CASE RACISM or SEXISM. These are just ACTUAL SOFTWARE NAMES and DIMINUTIVES.**
 
+---
+
 ## What is mancho.sh ?
 
-Mancho.sh is a bash script which adds cool features to man, like a command or description finder. Of course, if you already know the command you're searching for, you just need to specify its name to mancho.sh.
+Mancho.sh is a bash script which adds cool features to man, like a command and a description finder. Of course, if you already know the command you're searching for, you just need to specify its name to mancho.sh.
 
 ## Why should I use mancho.sh ?
 
 Mancho.sh has an integrated searching feature. If you want to use a command which lists windows, all you need to do is search for "list window". Magic !
 
+Mancho.sh does more than `man`, you can just alias it to `man` with `alias man='mancho.sh'` so you use a single command for everything.
+
 ## How can I install mancho.sh on my linux system ?
 
 ### Dependencies
 
+mancho.sh needs `sed`, `awk`, `grep`, `less`, `cat`, `curl`, `apropos`, `man` and `bash`, but these are almost **always** installed by default.
+
 #### fzf (the fuzzy finder)
+
+> fzf's github : https://github.com/junegunn/fzf
 
 * On Debian, Ubuntu, Linux Mint or any other Debian-based distro :
 
-        sudo apt install fzf
+        sudo apt update && sudo apt install fzf
 
 * On Fedora :
 
@@ -51,7 +59,7 @@ Run the following lines in a terminal :
 
 ---
 
-#### If the following command outputs `not in PATH` :
+#### _Warning_ ! If the following command outputs `not in PATH` :
 
 	echo "$PATH" | grep -qE "$HOME/.local/bin|~/.local/bin" && echo "all right" || echo "not in PATH"
 
@@ -74,3 +82,17 @@ Take a look at its built-in help page**s** with `mancho.sh --help` (shorter) or 
 These are also written in the docs ([here](https://github.com/lapingenieur/mancho.sh/tree/master/docs)) and in mancho.sh's built-in help.
 
 # Have a good time playing around with mancho.sh ;D
+
+    ABOUT :
+
+        mancho.sh - friendly interface for man
+        current version : 1.3.0
+	      (more up-to-date version values here : https://github.com/lapingenieur/mancho.sh/blob/master/version, last at the top)
+        program and help pages written by : lapingenieur
+        github repo : https://github.com/lapingenieur/mancho.sh
+        inspired by DistroTube (Derek Taylor)
+
+    SEE ALSO :
+
+        https://gitlab.com/dwt1/dotfiles/-/blob/master/macho.sh                      (where comes the idea)
+        https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh                  (where comes the idea, but using dmenu instead of fzf)
