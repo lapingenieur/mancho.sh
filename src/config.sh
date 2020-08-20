@@ -10,4 +10,5 @@
 # NAME :		DESCRIPTION :
 # FZF_DEFAULT_OPTS	fzf settings (prefer using the fzf_options internal variable)
 # MANPAGER		wanted program or script to print the manual page
+
 verbose=0
