@@ -1,5 +1,9 @@
 > NOTE: this file is the direct output of mancho.sh --long-help
-> mancho.sh output version : v1.3.0
+>
+> mancho.sh output version : v1.3.1
+>
+> long help page versio : v1.3.1
+>
 > (line 42 : "IMPORTANT" is pushed to left)
 
 
@@ -12,7 +16,7 @@
 	| $$ | $$ | $$|  $$$$$$$| $$  | $$|  $$$$$$$| $$  | $$|  $$$$$$/$$\$$$$$$$  |$$ |  $$ |
 	|__/ |__/ |__/ \_______/|__/  |__/ \_______/|__/  |__/ \______/ \_,\_______/ \__|  \__|
 
-                                        mancho.sh - friendly interface for man   v1.3.0
+                                        mancho.sh - friendly interface for man   v1.3.1 - long help version 
 
 
 USAGE :
@@ -76,6 +80,12 @@ OPTIONS :
       Print a configuration example to the config file.
       (the generated text is in fact just comments)
 
+   --upd, --update
+      Update mancho.sh. In fact, download the source code and tell the user what to do with.
+
+   --upd-f, --update-force
+      Update mancho.sh EVEN if already up to date.
+
    --
       Give all the following arguments to man
 
@@ -102,20 +112,14 @@ FAQ :
         daily list and output it into a file than wait before using mancho.sh everytimes.
 
    Q: mancho.sh tells me I need to update, but HOW can I exactly ?
-   A: Well, for now you would just reinstall it by hand following these steps ( >>> an updating function will probably come !! <<< ) :
-
-	- remove the old executable mancho.sh file
-	  (how to find it ? execute 'which mancho.sh' and you'll get its location)
-	- execute these commands at a shell :
-
-	    curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp
-	    cp /tmp/mancho.sh.tmp ~/.local/bin/mancho.sh
-	    chmod 755 ~/.local/bin/mancho.sh
+   A: If you use mancho.sh 'v1.3.0' or newer, there is a parameter which downloads the code and tells exactly what to do with it.
+        Just use : 'macho.sh --update'
 
 ABOUT :
 
    mancho.sh - friendly interface for man
-   version : 1.3.0
+   macho.sh's version : 1.3.1
+   this help page's version : 
    program and help pages written by : lapingenieur
    github repo : https://github.com/lapingenieur/mancho.sh
    inspired by DistroTube (Derek Taylor)
@@ -123,5 +127,6 @@ ABOUT :
 SEE ALSO :
 
    https://gitlab.com/dwt1/dotfiles/-/blob/master/macho.sh			(where comes the idea)
-   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh			(where comes the idea, but using dmenu instead of fzf)
+   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh			(where comes the idea, but using dmenu instead of fzf, GUI)
+   https://github.com/junegunn/fzf						(from where comes fzf, the fuzzy finder)
 

@@ -6,7 +6,7 @@
 
 # do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
 
-vers=1.3.0	# mancho.sh's version
+vers=1.3.1	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found --desc parameter in $1 (ONLY $1), then use description mode
 verbose=1	# if set to 1, will talk a little bit more
@@ -45,6 +45,7 @@ version(){
 }
 
 help(){
+	lh_help=1.3.1
 	less << EOF
 
 
@@ -57,7 +58,7 @@ help(){
 	| \$\$ | \$\$ | \$\$|  \$\$\$\$\$\$\$| \$\$  | \$\$|  \$\$\$\$\$\$\$| \$\$  | \$\$|  \$\$\$\$\$\$/\$\$\\\$\$\$\$\$\$\$  |\$\$ |  \$\$ |
 	|__/ |__/ |__/ \\_______/|__/  |__/ \\_______/|__/  |__/ \\______/ \\_,\\_______/ \\__|  \\__|
 
-                                        mancho.sh - friendly interface for man   v$vers
+                                        mancho.sh - friendly interface for man   v$vers - long help version $lh_vers
 
 
 USAGE :
@@ -121,6 +122,12 @@ OPTIONS :
       Print a configuration example to the config file.
       (the generated text is in fact just comments)
 
+   --upd, --update
+      Update mancho.sh. In fact, download the source code and tell the user what to do with.
+
+   --upd-f, --update-force
+      Update mancho.sh EVEN if already up to date.
+
    --
       Give all the following arguments to man
 
@@ -147,20 +154,14 @@ FAQ :
         daily list and output it into a file than wait before using mancho.sh everytimes.
 
    Q: mancho.sh tells me I need to update, but HOW can I exactly ?
-   A: Well, for now you would just reinstall it by hand following these steps ( >>> an updating function will probably come !! <<< ) :
-
-	- remove the old executable mancho.sh file
-	  (how to find it ? execute 'which mancho.sh' and you'll get its location)
-	- execute these commands at a shell :
-
-	    curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp
-	    cp /tmp/mancho.sh.tmp ~/.local/bin/mancho.sh
-	    chmod 755 ~/.local/bin/mancho.sh
+   A: If you use mancho.sh 'v1.3.0' or newer, there is a parameter which downloads the code and tells exactly what to do with it.
+        Just use : 'macho.sh --update'
 
 ABOUT :
 
    mancho.sh - friendly interface for man
-   version : $vers
+   macho.sh's version : $vers
+   this help page's version : $lh_vers
    program and help pages written by : lapingenieur
    github repo : https://github.com/lapingenieur/mancho.sh
    inspired by DistroTube (Derek Taylor)
@@ -168,12 +169,15 @@ ABOUT :
 SEE ALSO :
 
    https://gitlab.com/dwt1/dotfiles/-/blob/master/macho.sh			(where comes the idea)
-   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh			(where comes the idea, but using dmenu instead of fzf)
+   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh			(where comes the idea, but using dmenu instead of fzf, GUI)
+   https://github.com/junegunn/fzf						(from where comes fzf, the fuzzy finder)
 EOF
 }
 
 quickhelp(){
+	qh_vers=1.3.1
 	version
+	echo "quick help page version : $qh_vers"
 	echo "\n================================\n"
 	cat << EOF
 USAGE :
@@ -187,6 +191,8 @@ OPTIONS :
    -H, --long-help		print long help page
    --man-help			print man's help
    --mk-config			generate an example configuration file
+   --upd, --update		update mancho.sh
+   --upd-f, --update-force	update even if already latest version
    --				give following arguments to man
 
 More infos : mancho.sh --long-help
