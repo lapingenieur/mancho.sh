@@ -32,17 +32,24 @@ Mancho.sh has an integrated searching feature. If you want to use a command whic
 
 Run the following lines in a terminal :
 
-	curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp
-
-If you want to run mancho.sh with other users, execute :
-
-	sudo cp /tmp/mancho.sh.tmp /usr/local/bin/mancho.sh
-	sudo chmod 755 /usr/local/bin/mancho.sh
-
-Otherwise : *(make sure `~/.local/bin` stays in $PATH)*
-
-	cp /tmp/mancho.sh.tmp ~/.local/bin/mancho.sh
+	curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > ~/.local/bin/mancho.sh
 	chmod 755 ~/.local/bin/mancho.sh
+
+---
+
+#### If the following command outputs `not in PATH` :
+
+	echo "$PATH" | grep -qE "$HOME/.local/bin|~/.local/bin" && echo "all right" || echo "not in PATH"
+
+add the `~/.local/bin` directory to the PATH variable in your shell RC file (see just below)
+
+##### for bash, execute :
+
+	echo 'PATH=$PATH:~/.local/bin' >> ~/.bashrc
+
+##### for zsh, execute :
+
+	echo 'PATH=$PATH:~/.local/bin' >> ~/.zshrc
 
 ## How to use it ?
 
