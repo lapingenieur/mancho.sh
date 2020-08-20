@@ -10,5 +10,9 @@
 # NAME :		DESCRIPTION :
 # FZF_DEFAULT_OPTS	fzf settings (prefer using the fzf_options internal variable)
 # MANPAGER		wanted program or script to print the manual page
+#
+# More infos in the online docs :
+#    https://github.com/lapingenieur/mancho.sh/blob/master/docs/README.md                general help
+#    https://github.com/lapingenieur/mancho.sh/blob/master/docs/config.md                configuration help
 
 verbose=0
