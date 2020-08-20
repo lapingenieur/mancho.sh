@@ -26,7 +26,7 @@ sync(){
 	upd_vers="$(curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version | head -n 1)"
 	if test "$upd_vers" = "$vers"
 	then
-		echo " Done : Already up to date."
+		echo " Done : \033[0;32mAlready up to date.\033[0m"
 	else
 		echo " Done."
 		echo "\033[0;36;1mThere is an available update \033[1;34;1m(Update version : v$(curl -s https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version| head -n 1 | sed -z "s/\n//g") ; Current version : v$vers).\033[0m"
