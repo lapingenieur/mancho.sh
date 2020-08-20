@@ -101,13 +101,13 @@ DESCRIPTION :
 OPTIONS :
 
    --sync
-      SYNCronization, syncronize the list files (more infos : part FILE)
+      SYNCronization, syncronize the list files (more infos : part FILE) and search for updates
 
    --desc
       DESCription, activate description mode : if no more arguments, will do a fzf search within the description of each command.
       Not really useful unless you search for a description and not for a command name.
 
-   -h, --help, -help, --quick, --quick-help
+   -h, --help, -help, -q, --quick, --quick-help
       Print a quick/short help page (mancho.sh's quick help page)
 
    -H, --long-help
@@ -165,14 +165,15 @@ USAGE :
    mancho.sh MAN_OPTION...
 
 OPTIONS :
-   --sync			syncronize lists
-   --desc			description mode
-   -h, --help			print help page
-   -q, --quick, --quick-help	print quick help
-   -H, --man-help		print man's help
-   --				give following args to man
+   --sync			syncronize lists and search for updates
+   --desc			use description mode
+   -h, --help, -q, --quick	print short help page (this one)
+   -H, --long-help		print long help page
+   --man-help			print man's help
+   --mk-config			generate an example configuration file
+   --				give following arguments to man
 
-More infos : mancho.sh --help
+More infos : mancho.sh --long-help
 EOF
 }
 
@@ -225,15 +226,15 @@ fi
 if test "$*"		## arguments decoding
 then
 	case "$1" in			## if argument recognized :
-		"--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--man-help" | "--" | "--mk-config" | "--mk-config" )
+		"--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--man-help" | "--" | "--mk-config" )
 			until test $# = 0 || test "$ok" = 1
 			do
 				case $1 in
 					"--sync" ) version ; echo "" ; sync ;;
-					"-h" | "--help" | "-help" ) help ;;
-					"-q" | "--quick" | "--quick-help" ) quickhelp ;;
-					"-H" | "--man-help" ) man -h ;;
-					"--mk-config" | "--mk-config" ) mkconfig ;;
+					"-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" ) help ;;
+					"-H" | "--long-help" ) quickhelp ;;
+					"--man-help" ) man -h ;;
+					"--mk-config" ) mkconfig ;;
 					"--" ) shift ; man $* ; ok=1 ;;
 					* ) man $1 ;;
 				esac
