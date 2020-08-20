@@ -126,7 +126,7 @@ OPTIONS :
 
 FILES :
 
-   Mancho.sh uses two files which he creates they don't exist :
+   Mancho.sh uses two files which he creates if they don't exist :
    
       ~/.config/mancho.sh/list
          list of the installed manual pages (command names)
@@ -163,6 +163,7 @@ ABOUT :
    version : $vers
    program and help pages written by : lapingenieur
    github repo : https://github.com/lapingenieur/mancho.sh
+   inspired by DistroTube (Derek Taylor)
 
 SEE ALSO :
 
@@ -263,13 +264,13 @@ fi
 if test "$*"		## arguments decoding
 then
 	case "$1" in			## if argument recognized :
-		"--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--man-help" | "--" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" )
+		"--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--help-long" | "--man-help" | "--" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" )
 			until test $# = 0 || test "$ok" = 1
 			do
 				case $1 in
 					"--sync" ) version ; echo "" ; sync ;;
 					"-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" ) quickhelp ;;
-					"-H" | "--long-help" ) help ;;
+					"-H" | "--long-help" | "--help-long" ) help ;;
 					"--man-help" ) man -h ;;
 					"--mk-config" ) mkconfig ;;
 					"--" ) shift ; man $* ; ok=1 ;;
