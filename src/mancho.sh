@@ -6,7 +6,7 @@
 
 # do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
 
-vers=1.2.8	# mancho.sh's version
+vers=1.3.0	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found --desc parameter in $1 (ONLY $1), then use description mode
 verbose=1	# if set to 1, will talk a little bit more
