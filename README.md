@@ -96,3 +96,4 @@ These are also written in the docs ([here](https://github.com/lapingenieur/manch
 
         https://gitlab.com/dwt1/dotfiles/-/blob/master/macho.sh                      (where comes the idea)
         https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh                  (where comes the idea, but using dmenu instead of fzf)
+        https://github.com/junegunn/fzf                                              (from where comes fzf, the fuzzy finder)
