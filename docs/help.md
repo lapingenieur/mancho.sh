@@ -15,7 +15,7 @@ DESCRIPTION :
    Mancho.sh has some builtin options (like the one you are using to print this help page). If mancho.sh gets an option it doesn't know, it
    gives it to man, like `mancho.sh --usage` is gonna execute `man --usage`.
 
-      IMPORTANT :
+   IMPORTANT :
    
    Note that if the first argument (or the one after --desc) is not recognized, mancho.sh will give EVERY arguments to man in the SAME com-
    mand, whereas if it gets a known option for $1, it will execute EVERY man options but only ONE a time. That's why there's a -- argument
