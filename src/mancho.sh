@@ -6,7 +6,7 @@
 
 # do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
 
-vers=1.3.1	# mancho.sh's version
+vers=1.3.1b	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
 verbose=1	# if set to 1, will talk a little bit more
@@ -242,18 +242,21 @@ update(){
 	if test "$1" = "--log"
 	then
 		shift
-		echo "\033[0;37mCurrent mancho.sh version : $vers\n\033[34m"
-		#curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$vers
-cat ~/.config/mancho.sh/current-upd-log
-		echo "\n\033[0;37mLatest mancho.sh version : $upd_vers\n\033[34m"
-		#curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$upd_vers
-cat ~/Documents/myscripts/github/mancho.sh/chlogs/1.3.1b
+		echo "\033[0;37mCurrent mancho.sh version : $vers     ;     change logs :\033[34m"
+		curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$vers
+
+		if test "$upd_vers" = "$vers"
+		then
+			echo "\033[0;37mAlready up to date, no newer change log.\033[0m"
+		else
+			echo "\033[0;37mLatest mancho.sh version : $upd_vers     ;     change logs :\033[34m"
+			curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$upd_vers
+		fi
 	else
 		if test "$upd_vers" = "$vers" && test "$1" != "--force"
 		then
 			echo "\033[0;32mYour mancho.sh is already up to date.\033[0m"
 		else
-			shift
 			echo "\033[0;32mDownloading latest version of mancho.sh script...\033[0m\n"
 			curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp.$$
 			echo ""
@@ -261,13 +264,19 @@ cat ~/Documents/myscripts/github/mancho.sh/chlogs/1.3.1b
 			echo ""
 			echo "\033[0;32;1;4mDownloading done !\033[0;36;1m Now, you need to enter a few commands \033[0;35m(mancho.sh would panic if it did these...)\033[0;36;1m :\033[0;1m"
 			cat << EOF
-
    mv /tmp/mancho.sh.tmp.$$ ~/.local/bin/mancho.sh
    chmod 755 ~/.local/bin/mancho.sh
-
 EOF
-			echo "\033[0;36;1mThis will overwrite your actual mancho.sh file, and end the update (config files will stay)\033[0m"
+			echo "\033[0;36;1mThis will overwrite your actual mancho.sh file, and end the update (config files will stay)\033[0m\n"
+			echo -n "Show current version change logs ? (y/n) : "
+			read awnser
+			case "$awnser" in
+				"y" ) curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$upd_vers | less ;;
+				"n" ) true ;;
+				* ) echo "\033[0;33mDid not understand '$awnser', skipping change logs. \033[0mYou can print them with 'mancho.sh --upd-l'" ;;
+			esac
 		fi
+		echo "\033[0;35;1mUpdate function finished.\033[0m"
 	fi
 }
 
