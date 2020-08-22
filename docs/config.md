@@ -21,7 +21,7 @@ This file is made to define some variables or a few personnal stuff ; but it's a
 
 ### List of the environment variables you may want to change :
 
->   Note : you need to define these variables using the 'export' command in most shells (see your shell's manual at 'evironment variables')
+>   Note : you need to define these variables using the `export` command in most shells (see your shell's manual at 'evironment variables')
 
 | NAME :           | DESCRIPTION :              | VALUES :                  | Example :                                    | Example explaination :          |
 |------------------|----------------------------|---------------------------|----------------------------------------------|---------------------------------|
