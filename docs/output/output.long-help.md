@@ -1,10 +1,3 @@
-> NOTE: this file is the direct output of mancho.sh --long-help
->
-> mancho.sh output version : v1.3.1
->
-> long help page versio : v1.3.1
->
-> (line 42 : "IMPORTANT" is pushed to left)
 
 
 	                                             /$$                             $$\
@@ -16,7 +9,7 @@
 	| $$ | $$ | $$|  $$$$$$$| $$  | $$|  $$$$$$$| $$  | $$|  $$$$$$/$$\$$$$$$$  |$$ |  $$ |
 	|__/ |__/ |__/ \_______/|__/  |__/ \_______/|__/  |__/ \______/ \_,\_______/ \__|  \__|
 
-                                        mancho.sh - friendly interface for man   v1.3.1 - long help version 
+                                        mancho.sh - friendly interface for man   v1.4.0 - long help version 
 
 
 USAGE :
@@ -45,7 +38,7 @@ DESCRIPTION :
    Mancho.sh has some builtin options (like the one you are using to print this help page). If mancho.sh gets an option it doesn't know, it
    gives it to man, like `mancho.sh --usage` is gonna execute `man --usage`.
 
-   IMPORTANT :
+      IMPORTANT :
    
    Note that if the first argument (or the one after --desc) is not recognized, mancho.sh will give EVERY arguments to man in the SAME com-
    mand, whereas if it gets a known option for $1, it will execute EVERY man options but only ONE a time. That's why there's a -- argument
@@ -62,7 +55,7 @@ OPTIONS :
    --sync
       SYNCronization, syncronize the list files (more infos : part FILE) and search for updates
 
-   --desc
+   -d, --desc
       DESCription, activate description mode : if no more arguments, will do a fzf search within the description of each command.
       Not really useful unless you search for a description and not for a command name.
 
@@ -76,6 +69,9 @@ OPTIONS :
    --man-help
       Print man's help page (pass "-h" options to man)
 
+   -v, --vers, --version
+      Print th current version
+
    --mk-config
       Print a configuration example to the config file.
       (the generated text is in fact just comments)
@@ -85,6 +81,9 @@ OPTIONS :
 
    --upd-f, --update-force
       Update mancho.sh EVEN if already up to date.
+
+   --upd-l, --upd-log, --update-log
+      Print current version and latest version (if newer than current) change logs
 
    --
       Give all the following arguments to man
@@ -118,7 +117,7 @@ FAQ :
 ABOUT :
 
    mancho.sh - friendly interface for man
-   macho.sh's version : 1.3.1
+   macho.sh's version : 1.4.0
    this help page's version : 
    program and help pages written by : lapingenieur
    github repo : https://github.com/lapingenieur/mancho.sh
