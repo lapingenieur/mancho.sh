@@ -50,15 +50,13 @@ mancho.sh calls the `man` command if it needs to, so I highly recommend you to a
 
 # Print a manual page
 
-## Basic Usage
-
 ### Print directly a manual page
 
 (This one is always done at a prompt)
 
 #### Situation :
 
-> I want to look at `ls`'s manual
+I want to look at `ls`'s manual
 
 #### Command :
 
@@ -68,7 +66,7 @@ mancho.sh calls the `man` command if it needs to, so I highly recommend you to a
 
 #### Situation
 
-> I want to look at `ls`'s  manual passing thrue the searching part
+I want to look at `ls`'s  manual passing thrue the searching part
 
 #### Command :
 
@@ -80,9 +78,9 @@ Then type in the name of the command (here : `ls`) and press **`return`**.
 
 #### Situation
 
-> I know what king of command I am looking for but I can't remember its name
->
-> I want to print the manual of a command which can set my X keyboard
+I know what kind of command I am looking for but I can't remember its name
+
+I want to print the manual of a command which can set my X keyboard
 
 #### Command :
 
