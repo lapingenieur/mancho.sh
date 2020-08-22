@@ -1,16 +1,20 @@
 # Change Logs
 
+## Informations
+
 NOTE: Newer version at the top.
 
-* <<"NOTE:" : quite important note
-* dev phase : development phases
+* `<<NOTE:` : quite important note
+* `dev phase` : development phases
 
         alpha (unstable)    =>    beta (unstable)    =>    gamma (almost stable)    =>    delta (stable, official)
 
-* commit : commit ID
-* desc : description of change(s)
+* `commit` : commit ID
+* `desc` : description of change(s)
 
 ---
+
+## Global Change Logs
 
 ### 1.4.0
 ```
@@ -23,21 +27,26 @@ NOTE: Newer version at the top.
 ```
 
 ### 1.3.2
+```
   NOTE: deleted version
     dev phase : gamme (~ stable)
     commit : d03b3ecccd87f61e7ec0cf87a30ec5a3ef7cc04a
     desc :
         just finished change-logging
+```
 
 ### 1.3.1b
+```
   NOTE: test version
     dev phase : beta
     commit : e2208e8e7ef1a07da6b6cbe079c59c1e162f7d61
     desc :
         version for testing change-logging
-
+```
 ### 1.3.1 :
+```
   NOTE: no fix commit nb
     dev phase : alpha
     desc :
         started change-logging
+```
