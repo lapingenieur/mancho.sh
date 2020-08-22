@@ -45,7 +45,7 @@ version(){
 }
 
 help(){
-	lh_help=1.3.1
+	lh_help=1.4.0
 	less << EOF
 
 
@@ -181,7 +181,7 @@ EOF
 }
 
 quickhelp(){
-	qh_vers=1.3.1
+	qh_vers=1.4.0
 	version
 	echo "quick help page version : $qh_vers"
 	echo "\n================================\n"
