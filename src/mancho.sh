@@ -6,7 +6,7 @@
 
 # do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
 
-vers=1.3.1b	# mancho.sh's version
+vers=1.4.0	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
 verbose=1	# if set to 1, will talk a little bit more
@@ -118,6 +118,9 @@ OPTIONS :
    --man-help
       Print man's help page (pass "-h" options to man)
 
+   -v, --vers, --version
+      Print th current version
+
    --mk-config
       Print a configuration example to the config file.
       (the generated text is in fact just comments)
@@ -127,6 +130,9 @@ OPTIONS :
 
    --upd-f, --update-force
       Update mancho.sh EVEN if already up to date.
+
+   --upd-l, --upd-log, --update-log
+      Print current version and latest version (if newer than current) change logs
 
    --
       Give all the following arguments to man
@@ -190,9 +196,11 @@ OPTIONS :
    -h, --help, -q, --quick	print short help page (this one)
    -H, --long-help		print long help page
    --man-help			print man's help
+   -v, --vers, --version	print the current version
    --mk-config			generate an example configuration file
    --upd, --update		update mancho.sh
    --upd-f, --update-force	update even if already latest version
+   --upd-l, --update-log	show current and latest version change logs
    --				give following arguments to man
 
 More infos : mancho.sh --long-help
