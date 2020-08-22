@@ -28,9 +28,9 @@ or
 
 ### From the [Github page](https://www.github.com/lapingenieur/mancho.sh)
 
-[Minimal Help](./quick-help.md)
+[Minimal Help](./output/output.quick-help.md)
 
-[Complete Help](./long-help.md)
+[Complete Help](./output/output.long-help.md)
 
 ---
 
