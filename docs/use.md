@@ -1,4 +1,4 @@
-# MANCHO.SH - Usage Help
+# Quick Guide for mancho.sh
 
 # Index
 

@@ -1,12 +1,12 @@
-# MANCHO.SH - A *Good* Tutorial
+# A *Good* Tutorial for mancho.sh
 
 ## IMPORTANT NOTE:
 
-> This program, and in particular help pages, uses frequently the word `man` as a reference to the `man` software or as a shorter word for `manual` when talking about `manual pages` (this becomes `man pages`).
+> This program, and in particular help pages, uses frequently words that can be misinterpreted : `man`, `master`, `macho.sh`, and so on.
 > 
 > **It is in NO CASE RACISM or SEXISM. These are just SOFTWARE NAMES and DIMINUTIVES.**
 >
-> More infos [here](../README.md#important-note-and-name-explainations-d)
+> More infos [here](../README.md#important-note-and-name-explainations-d).
 
 ---
 
@@ -67,6 +67,8 @@ Now if you want to open the finder, maybe to have a preview of the man page, you
 
         mancho.sh
 
-You'll probably see the script doing some stuff before even printing the finder : nothing to be affraid of ! It just searches for eventual updates and creates the program daily lists. For more infos about lists, look at [this](#daily-lists)
+You'll probably see the script doing some stuff before even printing the finder : nothing to be affraid of ! It is just searching for eventual updates and creating the daily program lists. This happens once a day to save your time. For more infos about lists, look at [this](#daily-lists). Let just keep moving for now.
+
+You can search by 
 
 # Daily Lists

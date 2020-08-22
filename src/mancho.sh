@@ -8,7 +8,7 @@
 
 vers=1.3.1	# mancho.sh's version
 synced=0	# do not syncronize 2 times
-desc=0		# if found --desc parameter in $1 (ONLY $1), then use description mode
+desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
 verbose=1	# if set to 1, will talk a little bit more
 fzf_height=75	# default fzf height (in percent)
 		# below : default fzf options
@@ -104,7 +104,7 @@ OPTIONS :
    --sync
       SYNCronization, syncronize the list files (more infos : part FILE) and search for updates
 
-   --desc
+   -d, --desc
       DESCription, activate description mode : if no more arguments, will do a fzf search within the description of each command.
       Not really useful unless you search for a description and not for a command name.
 
@@ -181,12 +181,12 @@ quickhelp(){
 	echo "\n================================\n"
 	cat << EOF
 USAGE :
-   mancho.sh [--desc] [OPTION]... [-- MAN_OPTION...]
+   mancho.sh [-d|--desc] [OPTION]... [-- MAN_OPTION...]
    mancho.sh MAN_OPTION...
 
 OPTIONS :
    --sync			syncronize lists and search for updates
-   --desc			use description mode
+   -d, --desc			use description mode
    -h, --help, -q, --quick	print short help page (this one)
    -H, --long-help		print long help page
    --man-help			print man's help
@@ -264,7 +264,7 @@ test "$fzf_options" && export FZF_DEFAULT_OPTS="$fzf_options"
 
 ##### Main Prog
 
-if echo "$1" | grep -w "\-\-desc" >> /dev/null
+if echo "$1" | grep -qw "\-\-desc" || echo "$1" | grep -qw "\-d"
 then
 	test $verbose = 1 && echo "\033[0;32mINFO: using description mode\033[0m"
 	desc=1
@@ -274,10 +274,11 @@ fi
 if test "$*"		## arguments decoding
 then
 	case "$1" in			## if argument recognized :
-		"--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--help-long" | "--man-help" | "--" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" )
+		"-d" | "--desc" | "--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--help-long" | "--man-help" | "--" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" )
 			until test $# = 0 || test "$ok" = 1
 			do
 				case $1 in
+					"-d" | "--desc" ) desc=1 ; test $verbose = 1 && echo "\033[0;32mINFO: using description mode \033[1mfrom now on\033[0m" ;;
 					"--sync" ) version ; echo "" ; sync ;;
 					"-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" ) quickhelp ;;
 					"-H" | "--long-help" | "--help-long" ) help ;;
