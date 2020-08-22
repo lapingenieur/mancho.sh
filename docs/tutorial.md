@@ -69,6 +69,35 @@ Now if you want to open the finder, maybe to have a preview of the man page, you
 
 You'll probably see the script doing some stuff before even printing the finder : nothing to be affraid of ! It is just searching for eventual updates and creating the daily program lists. This happens once a day to save your time. For more infos about lists, look at [this](#daily-lists). Let just keep moving for now.
 
-You can search by 
+So we just entered `mancho.sh`. What happens now is it shows you the fuzzy finder (aka fzf, [their page here](https://github.com/junegunn/fzf/tree/master/)). You'll probably see something like this : (except the top of my terminal)
+
+![mancho.sh screenshot 1](../images/docs.tutorial.1.png)
+
+#### Description of fzf's interface
+
+> NOTE: fzf's default settings are not those used by mancho.sh, but you can set them in the configuration file (infos [here](./config.md), /!\\ advanced use).
+>
+> Mancho.sh's setting string :
+>
+>         export FZF_DEFAULT_OPTS="--height=50% --border --layout=reverse --prompt='Manual: ' --preview='echo {1} | sed -E \"s/^\((.+)\)/\1/\" | xargs -I{S} man -Pcat {S} {2} 2>/dev/null'"
+
+**With the default settings :**
+
+| Part of fzf          | Description |
+|----------------------|-------------|
+| Left Side            | List of commands (the number tells about its man category, infos : `man man` at "DESCRIPTION")
+| Right Side           | Preview of the manual page |
+| Top Left "Manual: "  | A kind of prompt where you enter the string to search for |
+| Top Left "8894/8894" | (or other values) Printed possibilities / total possibilities |
+
+Note that you can use the mouse in fzf if your terminal supports it.
+
+---
+
+If you don't remember a command's name or you just want to find a command which does a particular action, you can use **description mode** :
+
+        mancho.sh --desc
+
+
 
 # Daily Lists
