@@ -235,24 +235,39 @@ EOF
 }
 
 update(){
+# update() arguments :
+# --force : force an update
+# --log : print the change-logs
 	upd_vers="$(curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version | head -n 1)"
-	if test "$upd_vers" = "$vers" && test "$1" != "--force"
+	if test "$1" = "--log"
 	then
-		echo "\033[0;32mYour mancho.sh is already up to date.\033[0m"
+		shift
+		echo "\033[0;37mCurrent mancho.sh version : $vers\n\033[34m"
+		#curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$vers
+cat ~/.config/mancho.sh/current-upd-log
+		echo "\n\033[0;37mLatest mancho.sh version : $upd_vers\n\033[34m"
+		#curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$upd_vers
+cat ~/Documents/myscripts/github/mancho.sh/chlogs/1.3.1b
 	else
-		echo "\033[0;32mDownloading latest version of mancho.sh script...\033[0m\n"
-		curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp.$$
-		echo ""
-		echo "\033[0;34m################################################################\033[0m"
-		echo ""
-		echo "\033[0;32;1;4mDownloading done !\033[0;36;1m Now, you need to enter a few commands \033[0;35m(mancho.sh would panic if it did these...)\033[0;36;1m :\033[0;1m"
-		cat << EOF
+		if test "$upd_vers" = "$vers" && test "$1" != "--force"
+		then
+			echo "\033[0;32mYour mancho.sh is already up to date.\033[0m"
+		else
+			shift
+			echo "\033[0;32mDownloading latest version of mancho.sh script...\033[0m\n"
+			curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp.$$
+			echo ""
+			echo "\033[0;34m################################################################\033[0m"
+			echo ""
+			echo "\033[0;32;1;4mDownloading done !\033[0;36;1m Now, you need to enter a few commands \033[0;35m(mancho.sh would panic if it did these...)\033[0;36;1m :\033[0;1m"
+			cat << EOF
 
    mv /tmp/mancho.sh.tmp.$$ ~/.local/bin/mancho.sh
    chmod 755 ~/.local/bin/mancho.sh
 
 EOF
-		echo "\033[0;36;1mThis will overwrite your actual mancho.sh file, and end the update (config files will stay)\033[0m"
+			echo "\033[0;36;1mThis will overwrite your actual mancho.sh file, and end the update (config files will stay)\033[0m"
+		fi
 	fi
 }
 
@@ -271,10 +286,21 @@ then
 	shift
 fi
 
+## Some needed stuff
+	# is there a ~/.config/mancho.sh/ directory ?
+test -d ~/.config/mancho.sh/ || mkdir -p ~/.config/mancho.sh/
+
+	# is there a ~/.config/mancho.sh/current-upd-log file ?
+if ! test -f ~/.config/mancho.sh/current-upd-log
+then
+	touch ~/.config/mancho.sh/current-upd-log
+	test $synced = 0 && sync
+fi
+
 if test "$*"		## arguments decoding
 then
 	case "$1" in			## if argument recognized :
-		"-d" | "--desc" | "--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--help-long" | "--man-help" | "--" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" )
+		"-d" | "--desc" | "--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--help-long" | "--man-help" | "-v" | "--vers" | "--version" | "--" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" | "--upd-l" | "--upd-log" | "--update-log" )
 			until test $# = 0 || test "$ok" = 1
 			do
 				case $1 in
@@ -284,9 +310,11 @@ then
 					"-H" | "--long-help" | "--help-long" ) help ;;
 					"--man-help" ) man -h ;;
 					"--mk-config" ) mkconfig ;;
+					"-v" | "--vers" | "--version" ) version ;;
 					"--" ) shift ; man $* ; ok=1 ;;
 					"--upd" | "--update" ) update ;;
 					"--upd-f" | "--update-force" ) update --force ;;
+					"--upd-l" | "--upd-log" | "--update-log" ) update --log ;;
 					* ) man $1 ;;
 				esac
 				shift
@@ -294,8 +322,6 @@ then
 		* ) man $* ;;
 	esac
 else			## list file making
-	test -d ~/.config/mancho.sh/ || mkdir -p ~/.config/mancho.sh/
-
 	if ! test -f ~/.config/mancho.sh/list
 	then
 		touch ~/.config/mancho.sh/list
