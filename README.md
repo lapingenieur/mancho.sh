@@ -1,6 +1,6 @@
 # mancho.sh
 
-![mancho.sh-logo2](mancho_logo2.png)
+![mancho.sh-logo2](./images/mancho_logo2.png)
 
 ## IMPORTANT NOTE: (and name explainations :D)
 
