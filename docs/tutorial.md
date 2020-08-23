@@ -12,28 +12,12 @@
 
 # Index
 
-* [Introduction](#introduction) (same as [global readme](../README.md))
+* [Introduction](../README.md) (ref to README.md)
 * [First steps with mancho.sh](#first-steps)
 * [Open a manual page](#open-a-manual-page)
 * [The Daily Lists](#daily-lists)
 
 ---
-
-# Introduction
-
-## What is mancho.sh ?
-
-Mancho.sh is a bash script which adds cool features to man, like a command and a description finder. Of course, if you already know the command you're searching for, you just need to specify its name to mancho.sh.
-
-## Why should I use mancho.sh ?
-
-Mancho.sh has an integrated searching feature. If you want to use a command which lists windows, all you need to do is search for "list window". Magic !
-
-Mancho.sh does more than `man`, you can just alias it to `man` with `alias man='mancho.sh'` so you use a single command for everything. ([ref here](#simplify-executing-manchosh))
-
-## How can I install mancho.sh on my linux system ?
-
-Just follow [these instructions](../README.md#how-can-i-install-manchosh-on-my-linux-system-).
 
 # First Steps
 
@@ -73,7 +57,7 @@ So we just entered `mancho.sh`. What happens now is it shows you the fuzzy finde
 
 ![mancho.sh screenshot 1](../images/docs.tutorial.1.png)
 
-#### Description of fzf's interface
+### Description of fzf's interface
 
 > NOTE: fzf's default settings are not those used by mancho.sh, but you can set them in the configuration file (infos [here](./config.md), /!\\ advanced use).
 >
@@ -81,7 +65,7 @@ So we just entered `mancho.sh`. What happens now is it shows you the fuzzy finde
 >
 >         export FZF_DEFAULT_OPTS="--height=50% --border --layout=reverse --prompt='Manual: ' --preview='echo {1} | sed -E \"s/^\((.+)\)/\1/\" | xargs -I{S} man -Pcat {S} {2} 2>/dev/null'"
 
-**With the default settings :**
+**With mancho.sh's default settings :**
 
 | Part of fzf          | Description |
 |----------------------|-------------|
@@ -94,7 +78,7 @@ Note that you can use the mouse in fzf if your terminal supports it.
 
 ---
 
-If you don't remember a command's name or you just want to find a command which does a particular action, you can use **description mode** :
+Let's move on ! If you don't remember a command's name or you just want to find a command which does a particular action, you can use **description mode** :
 
         mancho.sh --desc
 
