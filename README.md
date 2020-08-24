@@ -76,7 +76,9 @@ add the `~/.local/bin` directory to the PATH variable in your shell RC file (see
 
 ## How to use it ?
 
-Take a look at its built-in help page**s** with `mancho.sh --help` (shorter) or `mancho.sh --long-help` (more complete), or read the documentation (in [this](https://github.com/lapingenieur/mancho.sh/tree/master/docs) folder).
+Take a look at its built-in help page**s** with `mancho.sh --help` (shorter) or `mancho.sh --long-help` (more complete), or read the documentation (in [this](https://github.com/lapingenieur/mancho.sh/tree/master/docs) folder). A good starting point of reading the docs is the [docs/README.md](https://github.com/lapingenieur/mancho.sh/tree/master/docs/README.md) file.
+
+You can also follow the [*good* tutorial](https://github.com/lapingenieur/mancho.sh/tree/master/docs/tutorial.md).
 
 ## Configuration and advanced use
 
