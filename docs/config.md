@@ -8,6 +8,10 @@ The config file stays in `~/.config/mancho.sh/config.sh`. It is not created by d
 
 This file is made to define some variables or a few personnal stuff ; but it's a bash script, so you can actually put what you want in it.
 
+> You may want to know which string is used to define fzf's layout by default :
+>
+>         export FZF_DEFAULT_OPTS="--height=50% --border --layout=reverse --prompt='Manual: ' --preview='echo {1} | sed -E \"s/^\((.+)\)/\1/\" | xargs -I{S} man -Pcat {S} {2} 2>/dev/null'"
+
 ## Adviced variable settings
 
 ### List of the internal variables you may want to change :
