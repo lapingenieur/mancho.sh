@@ -1,4 +1,4 @@
-# mancho.sh : DOCS
+# Documentation Index
 
 ## Which help file should I read ?
 
