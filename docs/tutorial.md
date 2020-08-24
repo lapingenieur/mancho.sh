@@ -65,7 +65,7 @@ So we just entered `mancho.sh`. What happens now is it shows you the fuzzy finde
 >
 >         export FZF_DEFAULT_OPTS="--height=50% --border --layout=reverse --prompt='Manual: ' --preview='echo {1} | sed -E \"s/^\((.+)\)/\1/\" | xargs -I{S} man -Pcat {S} {2} 2>/dev/null'"
 
-**With mancho.sh's default settings :**
+*(With mancho.sh's default settings :)*
 
 | Part of fzf          | Description |
 |----------------------|-------------|
@@ -82,6 +82,10 @@ Let's move on ! If you don't remember a command's name or you just want to find 
 
         mancho.sh --desc
 
+Mancho.sh looks about the same as before, but there's an added column in the command list : it's the description of the command on the same line.
 
+> You should not enable description mode by default because it changes the way fzf lists and selects the possibilities. Try to search for `ls`, you'll probably get something like this :
+> 
+> **HERE : DESC. MODE SCREENSHOT WITH `ls`**
 
 # Daily Lists
