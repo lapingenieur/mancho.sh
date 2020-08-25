@@ -18,6 +18,7 @@
 * [The Daily Lists](#daily-lists)
 * [Updates](#updates)
 * [Use the *real* man](#pass-arguments-to-man)
+* [Configuration](#configuration)
 
 Don't hesitate to open an issue or send me a mail if you con't figure out something !
 
