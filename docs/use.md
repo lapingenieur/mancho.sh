@@ -27,10 +27,12 @@ Then type in the name of the command (here : `ls`) and press **`return`**.
 
 #### Search for a manual page's description interactively and print it
 
-I want to print the manual of a command which can set my X keyboard but I can't remember its name :
+I want to print the manual of a command which can print all my X windows but I can't remember its name :
 
         mancho.sh --desc
 
-Then type in the description of the command ape press **`return`**.
+Then type in the description of the command, **choose** the right command with `up` and `down` and press **`return`**.
 
-        set X keyboard <return>
+        list windows
+	<choose the wanted possibility>
+	<press return>
