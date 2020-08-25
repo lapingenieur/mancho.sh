@@ -6,7 +6,7 @@
 
 # do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
 
-vers=1.4.0	# mancho.sh's version
+vers=1.4.1	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
 verbose=1	# if set to 1, will talk a little bit more
@@ -45,7 +45,7 @@ version(){
 }
 
 help(){
-	lh_vers=1.4.0
+	lh_vers=1.4.1
 	less << EOF
 
 
@@ -135,7 +135,12 @@ OPTIONS :
       Print current version and latest version (if newer than current) change logs
 
    --
-      Give all the following arguments to man
+      Give all the following arguments to man (every arguments are given to man in the SAME command)
+
+   ++
+      Give all the following arguments to man (the arguments are given ONE at a time to man)
+
+  NOTE: mancho.sh does not look at the arguments that follow '--' and '++', even if there's '--' or '++'.
 
 FILES :
 
@@ -181,7 +186,7 @@ EOF
 }
 
 quickhelp(){
-	qh_vers=1.4.0
+	qh_vers=1.4.1
 	version
 	echo "quick help page version : $qh_vers"
 	echo "\n================================\n"
@@ -201,7 +206,8 @@ OPTIONS :
    --upd, --update		update mancho.sh
    --upd-f, --update-force	update even if already latest version
    --upd-l, --update-log	show current and latest version change logs
-   --				give following arguments to man
+   --				give following arguments to man (in one command)
+   ++				give following arguments to man (one at a time)
 
 More infos : mancho.sh --long-help
 EOF
@@ -317,7 +323,7 @@ fi
 if test "$*"		## arguments decoding
 then
 	case "$1" in			## if argument recognized :
-		"-d" | "--desc" | "--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--help-long" | "--man-help" | "-v" | "--vers" | "--version" | "--" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" | "--upd-l" | "--upd-log" | "--update-log" )
+		"-d" | "--desc" | "--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--help-long" | "--man-help" | "-v" | "--vers" | "--version" | "--" | "++" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" | "--upd-l" | "--upd-log" | "--update-log" )
 			until test $# = 0 || test "$ok" = 1
 			do
 				case $1 in
@@ -329,12 +335,19 @@ then
 					"--mk-config" ) mkconfig ;;
 					"-v" | "--vers" | "--version" ) version ;;
 					"--" ) shift ; man $* ; ok=1 ;;
+					"++" ) shift ; ok=1
+						until test $# = 0
+						do
+							man $1
+							shift
+						done
+						;;
 					"--upd" | "--update" ) update ;;
 					"--upd-f" | "--update-force" ) update --force ;;
 					"--upd-l" | "--upd-log" | "--update-log" ) update --log ;;
 					* ) man $1 ;;
 				esac
-				shift
+				test $# != 0 && shift
 			done ;;		## if argument is not recognized, pass them all to man
 		* ) man $* ;;
 	esac
