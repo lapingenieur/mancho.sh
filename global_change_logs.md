@@ -18,6 +18,17 @@ NOTE: Newer version at the top.
 
 ## Global Change Logs
 
+### 1.4.0b
+```
+  NOTE: replaces v1.3.2
+    dev phase : delta (stable)
+    min. upd. commit : 65e46b2c698413485c9967ffd6886c45a5cc1fcb
+    initial commit : 63b4e8fba36f3826fe64216cf0e0a805600c73b6
+    desc :
+        arranged some things since v1.3.2
+        created this file
+```
+
 ### 1.4.0
 ```
   NOTE: replaces v1.3.2

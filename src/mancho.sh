@@ -45,7 +45,7 @@ version(){
 }
 
 help(){
-	lh_help=1.4.0
+	lh_vers=1.4.0
 	less << EOF
 
 
