@@ -18,15 +18,15 @@ NOTE: Newer version at the top.
 
 ## Global Change Logs
 
-### 1.4.0b
+### 1.4.1
+
 ```
-  NOTE: replaces v1.3.2
     dev phase : delta (stable)
-    min. upd. commit : 65e46b2c698413485c9967ffd6886c45a5cc1fcb
-    initial commit : 63b4e8fba36f3826fe64216cf0e0a805600c73b6
+    commit : 8e4c0ed261af6c28c4ad095260e73783aa346801
     desc :
-        arranged some things since v1.3.2
-        created this file
+        added ++ argument : like -- but gives every argument to man one by one
+        updated the help pages
+        corrected a help bug : long help version did not appeare
 ```
 
 ### 1.4.0
