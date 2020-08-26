@@ -85,7 +85,7 @@ Note that you can use the mouse in fzf if your terminal supports it.
 
 Let's move on ! If you don't remember a command's name or you just want to find a command which does a particular action, you can use **description mode** :
 
-	mancho.sh -d
+        mancho.sh -d
         mancho.sh --desc
 
 Mancho.sh looks about the same as before, but there's an added column in the command list : it's the description of the command on the same line.
@@ -114,7 +114,7 @@ As mensioned above, mancho.sh checks if there's an update every time it refreshe
 Nothing easier ! Just use one of these :
 
         mancho.sh --version
-	mancho.sh --vers
+        mancho.sh --vers
         mancho.sh -v
 
 ### Change logs
@@ -122,7 +122,7 @@ Nothing easier ! Just use one of these :
 Change logs contain the changes made for each mancho.sh version (and sub-version as well). You can find every change log since version `1.3.1` in [this](../global_change_logs.md) file. But if you want to print the news of an update, you can use one of these commands :
 
         mancho.sh --update-log
-	mancho.sh --upd-log
+        mancho.sh --upd-log
         mancho.sh --upd-l
 
 You'll see :
@@ -194,24 +194,24 @@ Thats's why there's a `--` argument which tells mancho.sh that all the following
 
 For the *quick* help :
 
-	mancho.sh -h
+        mancho.sh -h
         mancho.sh -help
         mancho.sh --help
-	mancho.sh -q
-	mancho.sh --quick
-	mancho.sh --quick-help
+        mancho.sh -q
+        mancho.sh --quick
+        mancho.sh --quick-help
 
 For the *complete* help :
 
         mancho.sh -H
-	mancho.sh --long-help
-	mancho.sh --help-long
+        mancho.sh --long-help
+        mancho.sh --help-long
 
 For the `man` program's help
 
         mancho.sh --man-help
-	mancho.sh -- -h
-	mancho.sh -- --help
+        mancho.sh -- -h
+        mancho.sh -- --help
 
 # Configuration
 
