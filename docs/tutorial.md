@@ -153,7 +153,7 @@ To update mancho.sh, all you need to do is execute this :
 
         mancho.sh --upd
 
-Mancho.sh will download it for you.** *Warning !* Mancho.sh will tell you one or two other commands to execute :** if it did those, bash would panic.
+Mancho.sh will download it for you. ***Warning !* Mancho.sh will tell you one or two other commands to execute :** if it did those, bash would panic.
 
 # Pass arguments to man
 
@@ -164,7 +164,10 @@ If mancho.sh receives an option he does'nt know, it will pass them to `man`. But
 * If mancho.sh does not recognize the **very first argument**, it will give **every** argument to man **ONCE** in the **SAME COMMAND**,
 * whereas if it gets a known **first argument**, it will give every **unknown** argument to man **ONE AT A TIME**, in **SEPARATE COMMANDS**
 
-Thats's why there's a `--` argument which tells mancho.sh that all the following arguments are to be given to man.
+Thats's why there are some arguments :
+
+* The `--` argument tells mancho.sh that **all** the following arguments are to be given to man **ONCE** in the **SAME COMMAND**
+* The `++` argument tells mancho.sh that **all** the following arguments are to be given to man **ONE AT A TIME**, in **SEPARATE COMMANDS**
 
 ### With a known first argument
 
@@ -184,11 +187,20 @@ Thats's why there's a `--` argument which tells mancho.sh that all the following
 
 ### With a known first argument using `--`
 
-        mancho.sh --help -- getcpu 2
+        mancho.sh --help -- vim getcpu 2
 
 => This will :
   * print mancho.sh's help page
-  * execute `man getcpu 2`
+  * execute `man vim getcpu 2`
+
+### With a known first argument using `++`
+
+        mancho.sh --help ++ vim "getcpu 2"
+
+=> This will :
+  * print mancho.sh's help page
+  * execute `man vim`
+  * execute `man getcpu 2` because `"getcpu 2"` is a single argument
 
 # Get the built-in help
 
