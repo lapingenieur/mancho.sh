@@ -3,7 +3,7 @@
 ## Index
 
 * [First steps](https://github.com/lapingenieur/mancho.sh/blob/master/docs/tutorial.md#first-steps) (ref to tutorial.md)
-* [Print a manual page](#Print-a-manual-page)
+* [Print a manual page](#print-a-manual-page)
 * [The Daily Lists](#daily-lists)
 * [Updates](#updates)
 * [Pass arguments to man](#pass-arguments-to-man)
@@ -55,7 +55,7 @@ More [here](./tutorial.md#daily-lists).
 #### Get the version
 
         mancho.sh --version
-	mancho.sh --vers
+        mancho.sh --vers
         mancho.sh -v
 
 #### Change logs
@@ -63,49 +63,50 @@ More [here](./tutorial.md#daily-lists).
 More logs [here](../global_change_logs.md). Print current and latest change logs :
 
         mancho.sh --update-log
-	mancho.sh --upd-log
+        mancho.sh --upd-log
         mancho.sh --upd-l
 
 #### Update mancho.sh
 
         mancho.sh --update
-	mancho.sh --upd
+        mancho.sh --upd
 
 #### Force update
 
         mancho.sh --update-force
-	mancho.sh --upd-f
+        mancho.sh --upd-f
 
 # Pass arguments to man
 
-| mancho.sh...                                        | so ...                                                  |
-|-----------------------------------------------------|---------------------------------------------------------|
-| doesn't recognize the **first** argument            | every argument goes into man in **a single command**    |
-| recognizes the **first** argument                   | all the unknown arguments go into man **one at a time** |
-| recognizes the **first** argument and receives `--` | every argument after `--` go into man **one at a time** |
+| mancho.sh...                                        | so ...                                                        |
+|-----------------------------------------------------|---------------------------------------------------------------|
+| doesn't recognize the **first** argument            | every argument goes into man in **a single command**          |
+| recognizes the **first** argument                   | all the unknown arguments go into man **one at a time**       |
+| recognizes the **first** argument and receives `--` | every argument after `--` go into man **in a single command** |
+| recognizes the **first** argument and receives `++` | every argument after `++` go into man **one at a time**       |
 
 # Get the built-in help
 
 For the *quick* help :
 
-	mancho.sh -h
+        mancho.sh -h
         mancho.sh -help
         mancho.sh --help
-	mancho.sh -q
-	mancho.sh --quick
-	mancho.sh --quick-help
+        mancho.sh -q
+        mancho.sh --quick
+        mancho.sh --quick-help
 
 For the *complete* help :
 
         mancho.sh -H
-	mancho.sh --long-help
-	mancho.sh --help-long
+        mancho.sh --long-help
+        mancho.sh --help-long
 
 For the `man` program's help
 
         mancho.sh --man-help
-	mancho.sh -- -h
-	mancho.sh -- --help
+       	mancho.sh -- -h
+        mancho.sh -- --help
 
 # Configuration
 
