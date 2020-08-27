@@ -225,6 +225,12 @@ For the `man` program's help
         mancho.sh -- -h
         mancho.sh -- --help
 
+# Verbosing mode
+
+When verbosing mode is activated, the program will output a bit more infos. By default (since `v1.4.2`), verbosing mode is uncativated. To use it, add `--verbose` or `-V` to your command.
+
+If you want to deactivate it, just type in `--silent` or `-s`.
+
 # Configuration
 
 The configuration file is in `~/.config/mancho.sh/config.sh`. It is in fact an included bash script, so you can do way more than just setting variables.

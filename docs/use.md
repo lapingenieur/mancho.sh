@@ -6,6 +6,7 @@
 * [Print a manual page](#print-a-manual-page)
 * [The Daily Lists](#daily-lists)
 * [Updates](#updates)
+* [Verbosing mode](#verbose)
 * [Pass arguments to man](#pass-arguments-to-man)
 * [Configuration](#configuration) (see also [config.md](./config.md))
 
@@ -34,6 +35,7 @@ Then type in the name of the command (here : `ls`) and press **`return`**.
 I want to print the manual of a command which can print all my X windows but I can't remember its name :
 
         mancho.sh --desc
+        mancho.sh -d
 
 Then type in the description of the command, **choose** the right command with `up` and `down` and press **`return`**.
 
@@ -58,6 +60,11 @@ More [here](./tutorial.md#daily-lists).
         mancho.sh --vers
         mancho.sh -v
 
+#### Search for updates
+
+        mancho.sh --upd-s
+        mancho.sh --update-search
+
 #### Change logs
 
 More logs [here](../global_change_logs.md). Print current and latest change logs :
@@ -75,15 +82,6 @@ More logs [here](../global_change_logs.md). Print current and latest change logs
 
         mancho.sh --update-force
         mancho.sh --upd-f
-
-# Pass arguments to man
-
-| mancho.sh...                                        | so ...                                                        |
-|-----------------------------------------------------|---------------------------------------------------------------|
-| doesn't recognize the **first** argument            | every argument goes into man in **a single command**          |
-| recognizes the **first** argument                   | all the unknown arguments go into man **one at a time**       |
-| recognizes the **first** argument and receives `--` | every argument after `--` go into man **in a single command** |
-| recognizes the **first** argument and receives `++` | every argument after `++` go into man **one at a time**       |
 
 # Get the built-in help
 
@@ -107,6 +105,27 @@ For the `man` program's help
         mancho.sh --man-help
        	mancho.sh -- -h
         mancho.sh -- --help
+
+# Verbose
+
+Activate verbosing :
+
+        mancho.sh --verbose
+	mancho.sh -V
+
+Deactivate verbosing :
+
+        mancho.sh --silent
+	mancho.sh -s
+
+# Pass arguments to man
+
+| mancho.sh...                                        | so ...                                                        |
+|-----------------------------------------------------|---------------------------------------------------------------|
+| doesn't recognize the **first** argument            | every argument goes into man in **a single command**          |
+| recognizes the **first** argument                   | all the unknown arguments go into man **one at a time**       |
+| recognizes the **first** argument and receives `--` | every argument after `--` go into man **in a single command** |
+| recognizes the **first** argument and receives `++` | every argument after `++` go into man **one at a time**       |
 
 # Configuration
 
