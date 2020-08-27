@@ -6,7 +6,7 @@
 
 # do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
 
-vers=1.4.1	# mancho.sh's version
+vers=1.4.2	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
 verbose=0	# if set to 1, will talk a little bit more
@@ -22,7 +22,7 @@ fi
 ##### functions define
 
 sync(){
-	echo -n "[1/3] Searching for updates..."
+	echo -n "[1/3] "
 	update --search
 	echo -n "[2/3] Creating today's standard cache file..."
 	echo ":: $(date '+%dd%mm%yy')\n(0)    quit\n$(apropos -s ${SECTION:-''} ${@:-.} | grep -v -E '^.+ \(0\)' | awk '{print $2 "    " $1}' | sed "s/ ([1-9])//g" | sort)" > ~/.config/mancho.sh/list
@@ -38,7 +38,7 @@ version(){
 }
 
 help(){
-	lh_vers=1.4.1
+	lh_vers=1.4.2
 	less << EOF
 
 
@@ -127,6 +127,9 @@ OPTIONS :
    --upd-l, --upd-log, --update-log
       Print current version and latest version (if newer than current) change logs
 
+   --upd-s, --update-search
+      Search for updates
+
    --
       Give all the following arguments to man (every arguments are given to man in the SAME command)
 
@@ -134,6 +137,14 @@ OPTIONS :
       Give all the following arguments to man (the arguments are given ONE at a time to man)
 
   NOTE: mancho.sh does not look at the arguments that follow '--' and '++', even if there's '--' or '++'.
+
+   -V, --verbose
+      Use verbosing mode.
+
+   -s, --silent
+      Unuse verbosing mode.
+
+  NOTE: verbosing mode can change during  executing : 'mancho.sh -V --sync -s --sync' will syncronize two time, but will print different outputs.
 
 FILES :
 
@@ -179,7 +190,7 @@ EOF
 }
 
 quickhelp(){
-	qh_vers=1.4.1
+	qh_vers=1.4.2
 	version
 	echo "quick help page version : $qh_vers"
 	echo "\n================================\n"
@@ -199,8 +210,11 @@ OPTIONS :
    --upd, --update		update mancho.sh
    --upd-f, --update-force	update even if already latest version
    --upd-l, --update-log	show current and latest version change logs
+   --upd-s, --update-search	search for updates
    --				give following arguments to man (in one command)
    ++				give following arguments to man (one at a time)
+   -V, --verbose		use verbosing mode
+   -s, --silent			unuse verbosing mode
 
 More infos : mancho.sh --long-help
 EOF
@@ -245,7 +259,11 @@ update(){
 # update() arguments :
 # --force : force an update
 # --log : print the change-logs
-# --search : search for update, used by sync()
+# --search : search for update, used by sync() and --upd-s
+#   if --search, then ($2 = "main") means called by --upd-s option
+#   in same case, ($2 = "") means not called by --upd-s option, surely from sync()
+	test "$1" = "--search" && echo -n "Searching for updates... "
+
 	if test "$verbose" = "1"
 	then
 		test "$1" = "--search" && echo ""
@@ -272,10 +290,27 @@ update(){
 			then
 				if test "$upd_vers" = "$vers"
 				then
-					test "$verbose" = "1" && echo -n "> " || echo -n " "
+					if test "$verbose" = "1"
+					then
+						echo -n "> "
+					elif test "$2" = "main"
+					then
+						true
+					else
+						echo -n " "
+					fi
 					echo "Done : \033[0;32mAlready up to date.\033[0m"
 				else
-					echo " Done."
+					if test "$verbose" = "1"
+					then
+						echo -n "> "
+					elif test "$2" = "main"
+					then
+						true
+					else
+						echo -n " "
+					fi
+					echo "Done."
 					echo "\033[0;36;1mThere is an available update \033[1;34;1m(Update version : v$(curl -s https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version| head -n 1 | sed -z "s/\n//g") ; Current version : v$vers).\033[0m"
 				fi
 			else
@@ -365,10 +400,12 @@ fi
 if test "$*"		## arguments decoding
 then
 	case "$1" in			## if argument recognized :
-		"-d" | "--desc" | "--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--help-long" | "--man-help" | "-v" | "--vers" | "--version" | "--" | "++" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" | "--upd-l" | "--upd-log" | "--update-log" )
+		"-V" | "--verbose" | "-s" | "--silent" | "-d" | "--desc" | "--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--help-long" | "--man-help" | "-v" | "--vers" | "--version" | "--" | "++" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" | "--upd-l" | "--upd-log" | "--update-log" | "--upd-s" | "--update-search" )
 			until test $# = 0 || test "$ok" = 1
 			do
 				case $1 in
+					"-s" | "--silent" ) verbose=0 ;;
+					"-V" | "--verbose" ) verbose=1 ; echo "\033[0;32mINFO: using verbosing mode\033[0m" ;;
 					"-d" | "--desc" ) desc=1 ; test $verbose = 1 && echo "\033[0;32mINFO: using description mode \033[1mfrom now on\033[0m" ;;
 					"--sync" ) version ; echo "" ; sync ;;
 					"-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" ) quickhelp ;;
@@ -387,6 +424,7 @@ then
 					"--upd" | "--update" ) update ;;
 					"--upd-f" | "--update-force" ) update --force ;;
 					"--upd-l" | "--upd-log" | "--update-log" ) update --log ;;
+					"--upd-s" | "--update-search" ) update --search main ;;
 					* ) man $1 ;;
 				esac
 				test $# != 0 && shift

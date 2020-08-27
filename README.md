@@ -89,7 +89,7 @@ These are also written in the docs ([here](https://github.com/lapingenieur/manch
     ABOUT :
 
         mancho.sh - friendly interface for man
-        current version : 1.4.1
+        current version : 1.4.2
 	      (more up-to-date version values here : https://github.com/lapingenieur/mancho.sh/blob/master/version, last at the top)
         program and help pages written by : lapingenieur
         github repo : https://github.com/lapingenieur/mancho.sh

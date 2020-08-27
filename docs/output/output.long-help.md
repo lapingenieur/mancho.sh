@@ -1,8 +1,8 @@
 > NOTE: this file is the direct output of mancho.sh --long-help
 >
-> mancho.sh output version : v1.4.1
+> mancho.sh output version : v1.4.2
 >
-> long help page version : v1.4.1
+> long help page version : v1.4.2
 
         
         
@@ -15,7 +15,7 @@
         	| $$ | $$ | $$|  $$$$$$$| $$  | $$|  $$$$$$$| $$  | $$|  $$$$$$/$$\$$$$$$$  |$$ |  $$ |
         	|__/ |__/ |__/ \_______/|__/  |__/ \_______/|__/  |__/ \______/ \_,\_______/ \__|  \__|
         
-                                                mancho.sh - friendly interface for man   v1.4.1 - long help version 1.4.1
+                                                mancho.sh - friendly interface for man   v1.4.2 - long help version 1.4.2
         
         
         USAGE :
@@ -91,6 +91,9 @@
            --upd-l, --upd-log, --update-log
               Print current version and latest version (if newer than current) change logs
         
+           --upd-s, --update-search
+              Search for updates
+        
            --
               Give all the following arguments to man (every arguments are given to man in the SAME command)
         
@@ -98,6 +101,14 @@
               Give all the following arguments to man (the arguments are given ONE at a time to man)
         
           NOTE: mancho.sh does not look at the arguments that follow '--' and '++', even if there's '--' or '++'.
+        
+           -V, --verbose
+              Use verbosing mode.
+        
+           -s, --silent
+              Unuse verbosing mode.
+        
+          NOTE: verbosing mode can change during  executing : 'mancho.sh -V --sync -s --sync' will syncronize two time, but will print different outputs.
         
         FILES :
         
@@ -128,8 +139,8 @@
         ABOUT :
         
            mancho.sh - friendly interface for man
-           macho.sh's version : 1.4.1
-           this help page's version : 1.4.1
+           macho.sh's version : 1.4.2
+           this help page's version : 1.4.2
            program and help pages written by : lapingenieur
            github repo : https://github.com/lapingenieur/mancho.sh
            inspired by DistroTube (Derek Taylor)
