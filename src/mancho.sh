@@ -9,7 +9,7 @@
 vers=1.4.1	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
-verbose=1	# if set to 1, will talk a little bit more
+verbose=0	# if set to 1, will talk a little bit more
 fzf_height=75	# default fzf height (in percent)
 		# below : default fzf options
 export FZF_DEFAULT_OPTS="--height=50% --border --layout=reverse --prompt='Manual: ' --preview='echo {1} | sed -E \"s/^\((.+)\)/\1/\" | xargs -I{S} man -Pcat {S} {2} 2>/dev/null'"
@@ -23,14 +23,7 @@ fi
 
 sync(){
 	echo -n "[1/3] Searching for updates..."
-	upd_vers="$(curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version | head -n 1)"
-	if test "$upd_vers" = "$vers"
-	then
-		echo " Done : \033[0;32mAlready up to date.\033[0m"
-	else
-		echo " Done."
-		echo "\033[0;36;1mThere is an available update \033[1;34;1m(Update version : v$(curl -s https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version| head -n 1 | sed -z "s/\n//g") ; Current version : v$vers).\033[0m"
-	fi
+	update --search
 	echo -n "[2/3] Creating today's standard cache file..."
 	echo ":: $(date '+%dd%mm%yy')\n(0)    quit\n$(apropos -s ${SECTION:-''} ${@:-.} | grep -v -E '^.+ \(0\)' | awk '{print $2 "    " $1}' | sed "s/ ([1-9])//g" | sort)" > ~/.config/mancho.sh/list
 	echo " Done."
@@ -240,8 +233,8 @@ mkconfig(){
 # MANPAGER		wanted program or script to print the manual page
 #
 # More infos in the online docs :
-#    https://github.com/lapingenieur/mancho.sh/blob/master/docs/README.md                general help
 #    https://github.com/lapingenieur/mancho.sh/blob/master/docs/config.md                configuration help
+#    https://github.com/lapingenieur/mancho.sh/blob/master/docs/README.md                help index
 
 EOF
 	echo "All done. (configuration file path : ~/.config/mancho.sh/config.sh)"
@@ -252,46 +245,95 @@ update(){
 # update() arguments :
 # --force : force an update
 # --log : print the change-logs
-	upd_vers="$(curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version | head -n 1)"
-	if test "$1" = "--log"
+# --search : search for update, used by sync()
+	if test "$verbose" = "1"
 	then
-		shift
-		echo "\033[0;37mCurrent mancho.sh version : $vers     ;     change logs :\033[34m"
-		curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$vers
+		test "$1" = "--search" && echo ""
+		echo -n "> \033[0;32mTesting if the repo is reachable... "
+	fi
 
-		if test "$upd_vers" = "$vers"
+	if ping -c 2 -W 1,5 -i 0,2 raw.githubusercontent.com >> /dev/null 2>&1
+	then
+		if test "$verbose" = "1"
 		then
-			echo "\033[0;37mAlready up to date, no newer change log.\033[0m"
-		else
-			echo "\033[0;37mLatest mancho.sh version : $upd_vers     ;     change logs :\033[34m"
-			curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$upd_vers
+			echo "\033[0mDone : \033[0;32mreached the repo.\033[0m"
 		fi
+		upd_vers="$(curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version | head -n 1)"
 	else
-		if test "$upd_vers" = "$vers" && test "$1" != "--force"
+		if test "$verbose" = "1"
 		then
-			echo "\033[0;32mYour mancho.sh is already up to date.\033[0m"
-		else
-			echo "\033[0;32mDownloading latest version of mancho.sh script...\033[0m\n"
-			curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp.$$
-			echo ""
-			echo "\033[0;34m################################################################\033[0m"
-			echo ""
-			echo "\033[0;32;1;4mDownloading done !\033[0;36;1m Now, you need to enter a few commands \033[0;35m(mancho.sh would panic if it did these...)\033[0;36;1m :\033[0;1m"
-			cat << EOF
+			echo "\033[0mDone : \033[0;33;1mthe repo is unreachable.\033[0m"
+		fi
+		upd_vers="$vers"
+	fi
+	case "$1" in
+		"--search" ) 
+			if ping -c 2 -W 1,5 -i 0,2 raw.githubusercontent.com >> /dev/null 2>&1
+			then
+				if test "$upd_vers" = "$vers"
+				then
+					test "$verbose" = "1" && echo -n "> " || echo -n " "
+					echo "Done : \033[0;32mAlready up to date.\033[0m"
+				else
+					echo " Done."
+					echo "\033[0;36;1mThere is an available update \033[1;34;1m(Update version : v$(curl -s https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version| head -n 1 | sed -z "s/\n//g") ; Current version : v$vers).\033[0m"
+				fi
+			else
+				echo " Done : \033[0;33;1mThe Github repository is not reachable (check your internet connection).\033[0m"
+			fi ;;
+		"--log" ) 
+			shift
+			if ping -c 2 -W 1,5 -i 0,2 raw.githubusercontent.com >> /dev/null 2>&1
+			then
+				echo "\033[0;37mCurrent mancho.sh version : $vers     ;     change logs :\033[34m"
+				curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$vers
+		
+				if test "$upd_vers" = "$vers"
+				then
+					echo "\033[0;37mAlready up to date, no newer change log.\033[0m"
+				else
+					echo "\033[0;37mLatest mancho.sh version : $upd_vers     ;     change logs :\033[34m"
+					curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$upd_vers
+				fi
+			else
+				echo "\033[0;33;1mMancho.sh/update cannot list the change logs :"
+				echo "The Github repository is not reachable (check your internet connection).\033[0m"
+				echo "Current mancho.sh version : $vers"
+			fi ;;
+		"" )
+			if ping -c 2 -W 1,5 -i 0,2 raw.githubusercontent.com >> /dev/null 2>&1
+			then
+				if test "$upd_vers" = "$vers" && test "$1" != "--force"
+				then
+					echo "\033[0;32mYour mancho.sh is already up to date.\033[0m"
+				else
+					echo "\033[0;32mDownloading latest version of mancho.sh script...\033[0m\n"
+					curl https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/src/mancho.sh > /tmp/mancho.sh.tmp.$$
+					echo ""
+					echo "\033[0;34m################################################################\033[0m"
+					echo ""
+					echo "\033[0;32;1;4mDownloading done !\033[0;36;1m Now, you need to enter a few commands \033[0;35m(mancho.sh would panic if it did these...)\033[0;36;1m :\033[0;1m"
+					cat << EOF
    mv /tmp/mancho.sh.tmp.$$ ~/.local/bin/mancho.sh
    chmod 755 ~/.local/bin/mancho.sh
 EOF
-			echo "\033[0;36;1mThis will overwrite your actual mancho.sh file, and end the update (config files will stay)\033[0m\n"
-			echo -n "Show current version change logs ? (y/n) : "
-			read awnser
-			case "$awnser" in
-				"y" ) curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$upd_vers | less ;;
-				"n" ) true ;;
-				* ) echo "\033[0;33mDid not understand '$awnser', skipping change logs. \033[0mYou can print them with 'mancho.sh --upd-l'" ;;
-			esac
-		fi
-		echo "\033[0;35;1mUpdate function finished.\033[0m"
-	fi
+					echo "\033[0;36;1mThis will overwrite your actual mancho.sh file, and end the update (config files will stay)\033[0m\n"
+					echo -n "Show current version change logs ? (y/n) : "
+					read awnser
+					case "$awnser" in
+						"y" ) curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/chlogs/$upd_vers | less ;;
+						"n" ) true ;;
+						* ) echo "\033[0;33mDid not understand '$awnser', skipping change logs. \033[0mYou can print them with 'mancho.sh --upd-l'" ;;
+					esac
+				fi
+				echo "\033[0;35;1mUpdate function finished.\033[0m"
+			else
+				echo "\033[0;33;1mMancho.sh/update cannot download newer version :"
+				echo "The Github repository is not reachable (check your internet connection).\033[0m"
+				echo "Current mancho.sh version : $vers"
+			fi ;;
+		* ) echo "\033[0;31;1mERR (INTERN): update() : received unknown argument '$1'\033[0m" >> /dev/stderr ;;
+	esac
 }
 
 ##### Include Shell Config file
