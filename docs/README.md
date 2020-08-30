@@ -7,7 +7,7 @@
   * are you searching for a **_good_ tutorial** ? If **yes**, take a look at [tutorial.md](./tutorial.md).
 * Are you searching for **help about configuration** ? If **yes**, take a look at [config.md](./config.md).
 * Are you searching for **raw help outputs** of mancho.sh ? If **yes**, take a look at the [output directory](./output).
-* Are you searching for **a list/help of installed and **[**online**](www.github.com/lapingenieur/mancho.sh)** files and arguments** ? If **yes**, take a look at [index.md](./index.md).
+* Are you searching for **a list/help of installed and **[**online**](https://github.com/lapingenieur/mancho.sh)** files and arguments** ? If **yes**, take a look at [index.md](./index.md).
 
 ## Files
 
@@ -18,7 +18,7 @@
 | [config.md](./config.md)         | Help about configurating and config file                              |
 | [output/output.quick-help.md](./output/output.quick-help.md) | Quick built-in help page, direct output of `mancho.sh --quick-help`   |
 | [output/output.long-help.md](./output/output.long-help.md)   | Complete built-in help page, direct output of `mancho.sh --long-help` |
-| [index.md](./index.md)           | A list of installed files, [online](www.github.com/lapingenieur/mancho.sh) files and arguments    |
+| [index.md](./index.md)           | A list of installed files, [online](https://github.com/lapingenieur/mancho.sh) files and arguments    |
 
 ## Directories
 
