@@ -73,6 +73,12 @@ add the `~/.local/bin` directory to the PATH variable in your shell RC file (see
 ##### for zsh, execute :
 
 	echo 'PATH=$PATH:~/.local/bin' >> ~/.zshrc
+	
+> **IMPORTANT NOTE:** You should update your mancho.sh script frequently. Mancho.sh tells you automaticly when there's a new release
+>
+> If it doesn't search for updates for a long time (like a month), you should run `mancho.sh --update-search`.
+>
+> More infos in the [help files](https://github.com/lapingenieur/mancho.sh/tree/master/docs) : in the [quick guide](https://github.com/lapingenieur/mancho.sh/blob/master/docs/use.md).
 
 ## How to use it ?
 
