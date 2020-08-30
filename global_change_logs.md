@@ -18,6 +18,18 @@ NOTE: Newer version at the top.
 
 ## Global Change Logs
 
+### 1.4.2
+
+```
+    dev phase : delta (stable)
+    min. upd. commit : 576ee03618956848fcbd3a2d480084d7432ca4f2
+    initial commit : b0b93769cb15026e9c3cea0e89ca8ddbbee65e72
+    desc :
+        added new options : --upd-s, -V, -s
+        improved update function : now tests if the repository is reachable
+        also updated built-in help pages and online docs
+```
+
 ### 1.4.1
 
 ```
