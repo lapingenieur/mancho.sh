@@ -103,7 +103,7 @@ For the *complete* help :
 For the `man` program's help
 
         mancho.sh --man-help
-       	mancho.sh -- -h
+        mancho.sh -- -h
         mancho.sh -- --help
 
 # Verbose
@@ -111,12 +111,12 @@ For the `man` program's help
 Activate verbosing :
 
         mancho.sh --verbose
-	mancho.sh -V
+        mancho.sh -V
 
 Deactivate verbosing :
 
         mancho.sh --silent
-	mancho.sh -s
+        mancho.sh -s
 
 # Pass arguments to man
 
