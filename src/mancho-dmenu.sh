@@ -6,13 +6,10 @@
 
 # do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
 
-vers=1.4.2	# mancho.sh's version
+vers=1.5-d	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
 verbose=0	# if set to 1, will talk a little bit more
-fzf_height=75	# default fzf height (in percent)
-		# below : default fzf options
-export FZF_DEFAULT_OPTS="--height=50% --border --layout=reverse --prompt='Manual: ' --preview='echo {1} | sed -E \"s/^\((.+)\)/\1/\" | xargs -I{S} man -Pcat {S} {2} 2>/dev/null'"
 
 if test -f ~/.config/mancho.sh/config.sh
 then
@@ -34,11 +31,11 @@ sync(){
 }
 
 version(){
-	echo "mancho.sh : friendly interface for man\nmancho.sh script's version : $vers"
+	echo "mancho-dmenu.sh : friendly graphical interface for man with dmenu\nmancho.sh script's version : $vers"
 }
 
 help(){
-	lh_vers=1.4.2b
+	lh_vers=1.5-d
 	less << EOF
 
 
@@ -51,7 +48,17 @@ help(){
 	| \$\$ | \$\$ | \$\$|  \$\$\$\$\$\$\$| \$\$  | \$\$|  \$\$\$\$\$\$\$| \$\$  | \$\$|  \$\$\$\$\$\$/\$\$\\\$\$\$\$\$\$\$  |\$\$ |  \$\$ |
 	|__/ |__/ |__/ \\_______/|__/  |__/ \\_______/|__/  |__/ \\______/ \\_,\\_______/ \\__|  \\__|
 
-                                        mancho.sh - friendly interface for man   v$vers - long help version $lh_vers
+	.......................\$\$\\.............................................................
+	.......................\$\$.|............................................................
+	..................\$\$\$\$\$\$\$.|...\$\$\$\$\$\$\\\$\$\$\$\\......\$\$\$\$\$\$\\.....\$\$\$\$\$\$\$\\.....\$\$\\...\$\$\\.....
+	....\$\$\$\$\$\$\$\\.....\$\$..__\$\$.|...\$\$.._\$\$.._\$\$\\....\$\$..__\$\$\\....\$\$..__\$\$\\....\$\$.|..\$\$.|....
+	....\$\$\$\$\$\$\$.|....\$\$./..\$\$.|...\$\$./.\$\$./.\$\$.|...\$\$\$\$\$\$\$\$.|...\$\$.|..\$\$.|...\$\$.|..\$\$.|....
+	....\\_______|....\$\$.|..\$\$.|...\$\$.|.\$\$.|.\$\$.|...\$\$...____|...\$\$.|..\$\$.|...\$\$.|..\$\$.|....
+	.................\\\$\$\$\$\$\$\$.|...\$\$.|.\$\$.|.\$\$.|...\\\$\$\$\$\$\$\$\\....\$\$.|..\$\$.|...\\\$\$\$\$\$\$..|....
+	..................\\_______|...\\__|.\\__|.\\__|....\\_______|...\\__|..\\__|....\\______/.....
+	.......................................................................................
+
+                                        mancho-dmenu.sh - friendly interface for man   v$vers - long help version $lh_vers
 
 
 USAGE :
@@ -78,8 +85,8 @@ IMPORTANT NOTE:
 DESCRIPTION :
 
    Mancho.sh is a friendly interface for man. If you call it without any option (or just with "--desc"), mancho.sh will update its command
-   list (if needed) and pull up a fzf (fuzzy finder) research. You'll just need to enter the name or the description of the command you're
-   asking for and mancho.sh will open its manual page.
+   list (if needed) and pull up a dmenu research. You'll just need to enter the name or the description of the command you're asking for
+   and mancho.sh will open its manual page.
 
    I recommend you to alias \`man\` to \`mancho.sh\` (add this line to ~/.bashrc if you are using bash : alias man='mancho.sh')
 
@@ -104,7 +111,7 @@ OPTIONS :
       SYNCronization, syncronize the list files (more infos : part FILE) and search for updates
 
    -d, --desc
-      DESCription, activate description mode : if no more arguments, will do a fzf search within the description of each command.
+      DESCription, activate description mode : if no more arguments, will do a search within the description of each command.
       Not really useful unless you search for a description and not for a command name.
 
    -h, --help, -help, -q, --quick, --quick-help
@@ -123,6 +130,9 @@ OPTIONS :
    --mk-config
       Print a configuration example to the config file.
       (the generated text is in fact just comments)
+
+   --mk-launcher
+      Generate the launcher file. This file should NOT be edited, modifiy the configuration file instead.
 
    --upd, --update
       Update mancho.sh. In fact, download the source code and tell the user what to do with.
@@ -191,12 +201,13 @@ SEE ALSO :
 
    https://gitlab.com/dwt1/dotfiles/-/blob/master/macho.sh			(where comes the idea)
    https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh			(where comes the idea, but using dmenu instead of fzf, GUI)
-   https://github.com/junegunn/fzf						(from where comes fzf, the fuzzy finder)
+   https://github.com/junegunn/fzf						(from where comes fzf, not used in this distribution)
+   https://suckless.org/dmenu							(from where comes dmenu)
 EOF
 }
 
 quickhelp(){
-	qh_vers=1.4.2
+	qh_vers=1.5-d
 	version
 	echo "quick help page version : $qh_vers"
 	echo "\n================================\n"
@@ -213,6 +224,7 @@ OPTIONS :
    --man-help			print man's help
    -v, --vers, --version	print the current version
    --mk-config			generate an example configuration file
+   --mk-launcher		generate the launcher (file not to be edited)
    --upd, --update		update mancho.sh
    --upd-f, --update-force	update even if already latest version
    --upd-l, --update-log	show current and latest version change logs
@@ -222,7 +234,7 @@ OPTIONS :
    -V, --verbose		use verbosing mode
    -s, --silent			unuse verbosing mode
 
-More infos : mancho.sh --long-help
+More infos and credits : mancho.sh --long-help
 EOF
 }
 
@@ -240,23 +252,14 @@ mklauncher(){
 	test $verbose = 1 && echo " and redirecting the default launcher to the wanted file..."
 	cat > ~/.config/mancho.sh/launcher.sh << EOF
 #!/bin/bash
-# 
-# DO NOT DELETE THE FIRST LINE UPPER
-# 
-# This is a file executed everytime mancho-dmenu.sh wants to print a manual page
-# It's written in bash scripting language.
-#  
-# You'll may wanna change the MANPAGER variable's value to the one you want.
+#
+# THIS FILE SHOULD NOT BE EDITED : edit ~/.config/mancho.sh/config.sh instead
 #
 # More infos in the online docs :
 #    https://github.com/lapingenieur/mancho.sh/blob/master/docs/config.md                configuration help
 #    https://github.com/lapingenieur/mancho.sh/blob/master/docs/README.md                help index
 
-#export TERM=xterm-256color
-#export MANPAGER="/bin/sh -c \\"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\\""
-
 . ~/.config/mancho.sh/config.sh
-
 man \$*
 EOF
 	chmod 755 ~/.config/mancho.sh/launcher.sh
@@ -280,8 +283,13 @@ mkconfig(){
 # NAME :		DESCRIPTION :
 # verbose		verbosing option
 # desc			1 = use always description mode
-# fzf_height		fzf's height
-# fzf_options		fzf settings, merged into FZF_DEFAULT if set
+# fzf_height		fzf's height						### mancho.sh
+# fzf_options		fzf settings, merged into FZF_DEFAULT if set		### mancho.sh
+# dmenu_opt		default options for dmenu				### mancho-dmenu.sh
+# 
+# PLEASE NOTE THAT the options you'll be able to add to dmenu DEPEND ON YOUR DMENU BUILD
+#   Mancho-dmenu.sh expects you by default to have no patch installed, the script comes with basic options.
+#   You can of course modify them as you want to improve its usage.
 #
 # List of the environment variables you may want to change :
 #    Note : you need to define these variables using the 'export' command (see your shell's manual)
@@ -319,7 +327,7 @@ update(){
 		then
 			echo "\033[0mDone : \033[0;32mreached the repo.\033[0m"
 		fi
-		upd_vers="$(curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version | head -n 1)"
+		upd_vers="$(curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version-d | head -n 1)"
 	else
 		if test "$verbose" = "1"
 		then
@@ -417,8 +425,6 @@ EOF
 ##### Include Shell Config file
 
 test -f ~/.config/mancho.sh/config.sh && . ~/.config/mancho.sh/config.sh
-fzf_height=$(echo "$fzf_height" | sed "s/%$//g") # corrects fzf_height if ends with %
-test "$fzf_options" && export FZF_DEFAULT_OPTS="$fzf_options"
 
 ##### Main Prog
 

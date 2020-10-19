@@ -476,12 +476,11 @@ else			## list file making
 			esac
 			;;
 	esac
-	#manual=$(echo "$list" | fzf | sed -E 's/^\((.+)\)/\1/' | sed "s/ - .*$//g")
-	manual=$(echo "$list" | dmenu_perso noe -l 10 -g 3 -p " Manual : " | sed -E 's/^\((.+)\)/\1/' | sed "s/ - .*$//g")
+	manual=$(echo "$list" | fzf | sed -E 's/^\((.+)\)/\1/' | sed "s/ - .*$//g")
 
 	case $manual in
 		"" | "0"*"quit" ) echo "" ; exit 0 ;;
-		* ) lxterminal --command "~/mancho.sh.plus $manual" ;;
+		* ) man $manual ;;
 	esac
 fi
 echo ""
