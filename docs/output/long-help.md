@@ -1,8 +1,8 @@
 > NOTE: this file is the direct output of mancho.sh --long-help
 >
-> mancho.sh output version : v1.4.2
+> mancho.sh output version : v1.6
 >
-> long help page version : v1.4.2b
+> long help page version : v1.5b
         
         
         	                                             /$$                             $$\
@@ -14,7 +14,7 @@
         	| $$ | $$ | $$|  $$$$$$$| $$  | $$|  $$$$$$$| $$  | $$|  $$$$$$/$$\$$$$$$$  |$$ |  $$ |
         	|__/ |__/ |__/ \_______/|__/  |__/ \_______/|__/  |__/ \______/ \_,\_______/ \__|  \__|
         
-                                                mancho.sh - friendly interface for man   v1.4.2 - long help version 1.4.2b
+                                                mancho.sh - friendly interface for man   v1.6 - long help version 1.5
         
         
         USAGE :
@@ -117,7 +117,7 @@
         
         FILES :
         
-           Mancho.sh uses two files which he creates if they don't exist :
+           Mancho.sh uses frequently two files which it creates if they don't exist :
            
               ~/.config/mancho.sh/list
                  list of the installed manual pages (command names)
@@ -125,7 +125,7 @@
               ~/.config/mancho.sh/list.desc
                  list of the installed manual pages (command names) followed by a short description
         
-           These two files are updated automaticaly every day or if mancho.sh receives "--sync".
+           The above two files are updated automaticaly every day or if mancho.sh receives "--sync".
         
               ~/.config/mancho.sh/config.sh
                  configuration file written in bash scripting. It is executed before the main part but after the first variable settings.
@@ -144,8 +144,8 @@
         ABOUT :
         
            mancho.sh - friendly interface for man
-           macho.sh's version : 1.4.2
-           this help page's version : 1.4.2b
+           macho.sh's version : 1.6
+           this help page's version : 1.5
            program and help pages written by : lapingenieur
            github repo : https://github.com/lapingenieur/mancho.sh
            inspired by DistroTube (Derek Taylor)
@@ -153,6 +153,7 @@
         SEE ALSO :
         
            https://gitlab.com/dwt1/dotfiles/-/blob/master/macho.sh			(where comes the idea)
-           https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh			(where comes the idea, but using dmenu instead of fzf, GUI)
+           https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh			(where comes the idea)
            https://github.com/junegunn/fzf						(from where comes fzf, the fuzzy finder)
+           https://suckless.org/dmenu							(from where comes dmenu, but using fzf instead of dmenu, TUI)
         
