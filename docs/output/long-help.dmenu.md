@@ -1,4 +1,4 @@
-> NOTE: this file is the direct output of mancho.sh --long-help
+> NOTE: this file is the direct output of mancho-dmenu.sh --long-help
 >
 > mancho.sh output version : v1.6-d
 >
