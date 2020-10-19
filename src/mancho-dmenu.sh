@@ -246,13 +246,13 @@ EOF
 mklauncher(){
 	if test -s ~/.config/mancho.sh/launcher.sh
 	then
-		echo -n "\033[0;31;1mThere is already a.config file. \033[0;32m(your old configuration will be saved)\033[0m Overwrite ? (y/n) : "
+		echo -n "\033[0;31;1mThere is already a launcher file. \033[0;32m(the old will be saved)\033[0m Overwrite ? (y/n) : "
 		read awnser
 		test "$awnser" != "y" && test "$awnser" != "yes" && exit
 		mv ~/.config/mancho.sh/launcher.sh /tmp/mancho.sh.launcher.save.$$
-		echo "\033[0;36mSaved your old.config file in /tmp/mancho.sh.launcher.save.$$\033[0m"
+		echo "\033[0;36mSaved to /tmp/mancho.sh.launcher.save.$$\033[0m"
 	fi
-	test $verbose = 1 && echo -n "Creating ~/.config/mancho.sh if didn't exist"
+	test $verbose = 1 && echo -n "Creating ~/.config/mancho.sh/ if didn't exist"
 	mkdir -p ~/.config/mancho.sh/
 	test $verbose = 1 && echo " and redirecting the default launcher to the wanted file..."
 	cat > ~/.config/mancho.sh/launcher.sh << EOF
@@ -291,6 +291,7 @@ mkconfig(){
 # fzf_height		fzf's height						### mancho.sh
 # fzf_options		fzf settings, merged into FZF_DEFAULT if set		### mancho.sh
 # dmenu_opt		default options for dmenu				### mancho-dmenu.sh
+# dmenu_cmd		a custom command to execute dmenu, like dmenu_run is	### mancho-dmenu.sh
 # 
 # PLEASE NOTE THAT the options you'll be able to add to dmenu DEPEND ON YOUR DMENU BUILD
 #   Mancho-dmenu.sh expects you by default to have no patch installed, the script comes with basic options.
@@ -305,7 +306,6 @@ mkconfig(){
 # More infos in the online docs :
 #    https://github.com/lapingenieur/mancho.sh/blob/master/docs/config.md                configuration help
 #    https://github.com/lapingenieur/mancho.sh/blob/master/docs/README.md                help index
-
 EOF
 	echo "All done. (configuration file path : ~/.config/mancho.sh/config.sh)"
 	echo "You should modify it instead of changing the main-code file."
