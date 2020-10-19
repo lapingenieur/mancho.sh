@@ -226,6 +226,43 @@ More infos : mancho.sh --long-help
 EOF
 }
 
+mklauncher(){
+	if test -s ~/.config/mancho.sh/launcher.sh
+	then
+		echo -n "\033[0;31;1mThere is already a.config file. \033[0;32m(your old configuration will be saved)\033[0m Overwrite ? (y/n) : "
+		read awnser
+		test "$awnser" != "y" && test "$awnser" != "yes" && exit
+		mv ~/.config/mancho.sh/launcher.sh /tmp/mancho.sh.launcher.save.$$
+		echo "\033[0;36mSaved your old.config file in /tmp/mancho.sh.launcher.save.$$\033[0m"
+	fi
+	test $verbose = 1 && echo -n "Creating ~/.config/mancho.sh if didn't exist"
+	mkdir -p ~/.config/mancho.sh/
+	test $verbose = 1 && echo " and redirecting the default launcher to the wanted file..."
+	cat > ~/.config/mancho.sh/launcher.sh << EOF
+#!/bin/bash
+# 
+# DO NOT DELETE THE FIRST LINE UPPER
+# 
+# This is a file executed everytime mancho-dmenu.sh wants to print a manual page
+# It's written in bash scripting language.
+#  
+# You'll may wanna change the MANPAGER variable's value to the one you want.
+#
+# More infos in the online docs :
+#    https://github.com/lapingenieur/mancho.sh/blob/master/docs/config.md                configuration help
+#    https://github.com/lapingenieur/mancho.sh/blob/master/docs/README.md                help index
+
+#export TERM=xterm-256color
+#export MANPAGER="/bin/sh -c \\"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\\""
+
+. ~/.config/mancho.sh/config.sh
+
+man \$*
+EOF
+	chmod 755 ~/.config/mancho.sh/launcher.sh
+	echo "All done. (launcher file path : ~/.config/mancho.sh/launcher.sh)"
+}
+
 mkconfig(){
 	if test -s ~/.config/mancho.sh/config.sh
 	then
@@ -406,7 +443,7 @@ fi
 if test "$*"		## arguments decoding
 then
 	case "$1" in			## if argument recognized :
-		"-V" | "--verbose" | "-s" | "--silent" | "-d" | "--desc" | "--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--help-long" | "--man-help" | "-v" | "--vers" | "--version" | "--" | "++" | "--mk-config" | "--upd" | "--update" | "--upd-f" | "--update-force" | "--upd-l" | "--upd-log" | "--update-log" | "--upd-s" | "--update-search" )
+		"-V" | "--verbose" | "-s" | "--silent" | "-d" | "--desc" | "--sync" | "-h" | "--help" | "-help" | "-q" | "--quick" | "--quick-help" | "-H" | "--long-help" | "--help-long" | "--man-help" | "-v" | "--vers" | "--version" | "--" | "++" | "--mk-config" | "--mk-launcher" | "--upd" | "--update" | "--upd-f" | "--update-force" | "--upd-l" | "--upd-log" | "--update-log" | "--upd-s" | "--update-search" )
 			until test $# = 0 || test "$ok" = 1
 			do
 				case $1 in
@@ -418,6 +455,7 @@ then
 					"-H" | "--long-help" | "--help-long" ) help ;;
 					"--man-help" ) man -h ;;
 					"--mk-config" ) mkconfig ;;
+					"--mk-launcher" ) mklauncher ;;
 					"-v" | "--vers" | "--version" ) version ;;
 					"--" ) shift ; man $* ; ok=1 ;;
 					"++" ) shift ; ok=1
@@ -476,12 +514,11 @@ else			## list file making
 			esac
 			;;
 	esac
-	#manual=$(echo "$list" | fzf | sed -E 's/^\((.+)\)/\1/' | sed "s/ - .*$//g")
 	manual=$(echo "$list" | dmenu_perso noe -l 10 -g 3 -p " Manual : " | sed -E 's/^\((.+)\)/\1/' | sed "s/ - .*$//g")
 
 	case $manual in
 		"" | "0"*"quit" ) echo "" ; exit 0 ;;
-		* ) lxterminal --command "~/mancho.sh.plus $manual" ;;
+		* ) lxterminal --command "~/.config/mancho.sh/launcher.sh $manual" ;;
 	esac
 fi
 echo ""
