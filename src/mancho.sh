@@ -6,7 +6,7 @@
 
 # do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
 
-vers=1.4.2	# mancho.sh's version
+vers=1.5	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
 verbose=0	# if set to 1, will talk a little bit more
@@ -35,10 +35,11 @@ sync(){
 
 version(){
 	echo "mancho.sh : friendly interface for man\nmancho.sh script's version : $vers"
+	echo "mancho-dmenu.sh : friendly graphical interface for man with dmenu\nmancho.sh script's version : $vers"
 }
 
 help(){
-	lh_vers=1.4.2b
+	lh_vers=1.5
 	less << EOF
 
 
@@ -154,7 +155,7 @@ OPTIONS :
 
 FILES :
 
-   Mancho.sh uses two files which he creates if they don't exist :
+   Mancho.sh uses frequently two files which it creates if they don't exist :
    
       ~/.config/mancho.sh/list
          list of the installed manual pages (command names)
@@ -162,7 +163,7 @@ FILES :
       ~/.config/mancho.sh/list.desc
          list of the installed manual pages (command names) followed by a short description
 
-   These two files are updated automaticaly every day or if mancho.sh receives "--sync".
+   The above two files are updated automaticaly every day or if mancho.sh receives "--sync".
 
       ~/.config/mancho.sh/config.sh
          configuration file written in bash scripting. It is executed before the main part but after the first variable settings.
@@ -190,13 +191,14 @@ ABOUT :
 SEE ALSO :
 
    https://gitlab.com/dwt1/dotfiles/-/blob/master/macho.sh			(where comes the idea)
-   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh			(where comes the idea, but using dmenu instead of fzf, GUI)
+   https://gitlab.com/dwt1/dotfiles/-/blob/master/macho-gui.sh			(where comes the idea)
    https://github.com/junegunn/fzf						(from where comes fzf, the fuzzy finder)
+   https://suckless.org/dmenu							(from where comes dmenu, but using fzf instead of dmenu, TUI)
 EOF
 }
 
 quickhelp(){
-	qh_vers=1.4.2
+	qh_vers=1.5
 	version
 	echo "quick help page version : $qh_vers"
 	echo "\n================================\n"
@@ -222,7 +224,7 @@ OPTIONS :
    -V, --verbose		use verbosing mode
    -s, --silent			unuse verbosing mode
 
-More infos : mancho.sh --long-help
+More infos and credits : mancho.sh --long-help
 EOF
 }
 
@@ -243,8 +245,14 @@ mkconfig(){
 # NAME :		DESCRIPTION :
 # verbose		verbosing option
 # desc			1 = use always description mode
-# fzf_height		fzf's height
-# fzf_options		fzf settings, merged into FZF_DEFAULT if set
+# fzf_height		fzf's height						### mancho.sh
+# fzf_options		fzf settings, merged into FZF_DEFAULT if set		### mancho.sh
+# dmenu_opt		default options for dmenu				### mancho-dmenu.sh
+# dmenu_cmd		a custom command to execute dmenu, like dmenu_run is	### mancho-dmenu.sh
+# 
+# PLEASE NOTE THAT the options you'll be able to add to dmenu DEPEND ON YOUR DMENU BUILD
+#   Mancho-dmenu.sh expects you by default to have no patch installed, the script comes with basic options.
+#   You can of course modify them as you want to improve its usage.
 #
 # List of the environment variables you may want to change :
 #    Note : you need to define these variables using the 'export' command (see your shell's manual)
@@ -255,7 +263,6 @@ mkconfig(){
 # More infos in the online docs :
 #    https://github.com/lapingenieur/mancho.sh/blob/master/docs/config.md                configuration help
 #    https://github.com/lapingenieur/mancho.sh/blob/master/docs/README.md                help index
-
 EOF
 	echo "All done. (configuration file path : ~/.config/mancho.sh/config.sh)"
 	echo "You should modify it instead of changing the main-code file."

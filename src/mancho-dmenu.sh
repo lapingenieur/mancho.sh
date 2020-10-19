@@ -1,6 +1,6 @@
 #!/bin/sh
 # 
-# mancho.sh - friendly interface for man
+# mancho-dmenu.sh : friendly graphical interface for man with dmenu
 
 ###### Variables Default Settings
 
@@ -10,8 +10,8 @@ vers=1.5-d	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
 verbose=0	# if set to 1, will talk a little bit more
-dmenu_opt="-p ' Manual : '"
-dmenu_cmd="dmenu"
+dmenu_opt="-p ' Manual : '" # dmenu default options
+dmenu_cmd="dmenu" # dmenu command to use
 
 if test -f ~/.config/mancho.sh/config.sh
 then
@@ -33,6 +33,7 @@ sync(){
 }
 
 version(){
+	echo "mancho.sh : friendly interface for man\nmancho.sh script's version : $vers"
 	echo "mancho-dmenu.sh : friendly graphical interface for man with dmenu\nmancho.sh script's version : $vers"
 }
 
