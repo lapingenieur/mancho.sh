@@ -10,6 +10,8 @@ vers=1.5-d	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
 verbose=0	# if set to 1, will talk a little bit more
+dmenu_opt="-p ' Manual : '"
+dmenu_cmd="dmenu"
 
 if test -f ~/.config/mancho.sh/config.sh
 then
@@ -35,7 +37,7 @@ version(){
 }
 
 help(){
-	lh_vers=1.5-d
+	lh_vers=1.5b-d
 	less << EOF
 
 
@@ -164,7 +166,7 @@ OPTIONS :
 
 FILES :
 
-   Mancho.sh uses two files which he creates if they don't exist :
+   Mancho.sh uses frequently two files which it creates if they don't exist :
    
       ~/.config/mancho.sh/list
          list of the installed manual pages (command names)
@@ -172,11 +174,14 @@ FILES :
       ~/.config/mancho.sh/list.desc
          list of the installed manual pages (command names) followed by a short description
 
-   These two files are updated automaticaly every day or if mancho.sh receives "--sync".
+   The above two files are updated automaticaly every day or if mancho.sh receives "--sync".
 
       ~/.config/mancho.sh/config.sh
          configuration file written in bash scripting. It is executed before the main part but after the first variable settings.
 	 NOTE: this file is actually executed, so you can do whatever you want with this config file.
+
+      ~/.config/mancho.sh/launcher.sh
+         needed script to launch the 'man' program when using the graphical distribution, it executes the config file before 'man'
 
 FAQ :
 
@@ -520,7 +525,7 @@ else			## list file making
 			esac
 			;;
 	esac
-	manual=$(echo "$list" | dmenu_perso noe -l 10 -g 3 -p " Manual : " | sed -E 's/^\((.+)\)/\1/' | sed "s/ - .*$//g")
+	manual=$(echo "$list" | $dmenu_cmd -p " Manual : " $dmenu_opt | sed -E 's/^\((.+)\)/\1/' | sed "s/ - .*$//g")
 
 	case $manual in
 		"" | "0"*"quit" ) echo "" ; exit 0 ;;
