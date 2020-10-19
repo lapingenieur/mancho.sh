@@ -6,7 +6,7 @@
 
 # do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
 
-vers=1.5-d	# mancho.sh's version
+vers=1.6-d	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
 verbose=0	# if set to 1, will talk a little bit more
@@ -24,7 +24,7 @@ sync(){
 	echo -n "[1/3] "
 	update --search
 	echo -n "[2/3] Creating today's standard cache file..."
-	echo ":: $(date '+%dd%mm%yy')\n(0)    quit\n$(apropos -s ${SECTION:-''} ${@:-.} | grep -v -E '^.+ \(0\)' | awk '{print $2 "    " $1}' | sed "s/ ([1-9])//g" | sort)" > ~/.config/mancho.sh/list
+	echo ":: $(date '+%dd%mm%yy')\n(0)    quit\n(0)    version\n$(apropos -s ${SECTION:-''} ${@:-.} | grep -v -E '^.+ \(0\)' | awk '{print $2 "    " $1}' | sed "s/ ([1-9])//g" | sort)" > ~/.config/mancho.sh/list
 	echo " Done."
 	echo -n "[3/3] Creating today's expanded cache file..."
 	echo ":: $(date '+%dd%mm%yy')\n(0)    quit\n$(apropos -s ${SECTION:-''} ${@:-.} | grep -v -E '^.+ \(0\)' | awk '{print $2 "    " $0}' | sed "s/ ([1-9])//g" | sort)" > ~/.config/mancho.sh/list.desc
@@ -33,8 +33,8 @@ sync(){
 }
 
 version(){
-	echo "mancho.sh : friendly interface for man\nmancho.sh script's version : $vers"
-	echo "mancho-dmenu.sh : friendly graphical interface for man with dmenu\nmancho.sh script's version : $vers"
+	echo "mancho.sh : friendly interface for man"
+	echo "mancho-dmenu.sh : friendly graphical interface for man with dmenu     <=\nversion : $vers"
 }
 
 help(){
@@ -266,7 +266,13 @@ mklauncher(){
 #    https://github.com/lapingenieur/mancho.sh/blob/master/docs/README.md                help index
 
 . ~/.config/mancho.sh/config.sh
-man \$*
+if test "\$1" = "--version"
+then
+	shift
+	echo "\$*"
+else
+	man \$*
+fi
 EOF
 	chmod 755 ~/.config/mancho.sh/launcher.sh
 	echo "All done. (launcher file path : ~/.config/mancho.sh/launcher.sh)"
@@ -530,6 +536,9 @@ else			## list file making
 
 	case $manual in
 		"" | "0"*"quit" ) echo "" ; exit 0 ;;
+		"0"*"version" )
+			version >> /tmp/mancho.sh.version.$$.tmp
+			lxterminal --command "~/.config/mancho.sh/launcher.sh --version /tmp/mancho.sh.version.$$.tmp" ;;
 		* ) lxterminal --command "~/.config/mancho.sh/launcher.sh $manual" ;;
 	esac
 fi

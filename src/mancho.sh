@@ -6,7 +6,7 @@
 
 # do not change variable values here, but in the config file (use 'mancho.sh --mk-config')
 
-vers=1.5	# mancho.sh's version
+vers=1.6	# mancho.sh's version
 synced=0	# do not syncronize 2 times
 desc=0		# if found -d or --desc parameter in $1 (ONLY $1), then use description mode
 verbose=0	# if set to 1, will talk a little bit more
@@ -34,8 +34,8 @@ sync(){
 }
 
 version(){
-	echo "mancho.sh : friendly interface for man\nmancho.sh script's version : $vers"
-	echo "mancho-dmenu.sh : friendly graphical interface for man with dmenu\nmancho.sh script's version : $vers"
+	echo "mancho.sh : friendly interface for man     <="
+	echo "mancho-dmenu.sh : friendly graphical interface for man with dmenu\nversion : $vers"
 }
 
 help(){
@@ -487,6 +487,7 @@ else			## list file making
 
 	case $manual in
 		"" | "0"*"quit" ) echo "" ; exit 0 ;;
+		"0"*"version" ) echo "" ; version ; echo "\npress enter... " ; read awn ;;
 		* ) man $manual ;;
 	esac
 fi
