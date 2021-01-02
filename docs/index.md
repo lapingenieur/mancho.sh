@@ -35,7 +35,7 @@
 | `~/.config/mancho.sh/config.sh` | Configuration file written in bash, included to mancho.sh's code if exists |
 | `/tmp/mancho.sh.tmp.$$`         | Temporary file : updated mancho.sh's source code ($$ is a PID number)      |
 
-# Online file/direcetory list (on the [github page](https://github.com/lapingenieur/mancho.sh))
+# Online file/directory list (on the [github page](https://github.com/lapingenieur/mancho.sh))
 
 > This list can be not exhaustive.
 
