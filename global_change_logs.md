@@ -18,6 +18,53 @@ NOTE: Newer version at the top.
 
 ## Global Change Logs
 
+### 1.6x
+
+#### 1.6 (cli)
+
+```
+    dev phase : delta (stable)
+    min. upd. commit : aa067b9ad4df44cf68f023951315bc9ee1c7be6c
+    initial commit : 2610cdc30dd44e7608a3f24891539f51505d8e32
+    desc :
+         redone some text messages
+         changed a bit help pages
+         changed config file comments to be the same as the dmenu distribution's
+         added "(0) version" to the command list
+```
+
+#### 1.6-d (dmenu)
+
+```
+    dev phase : delta (stable)
+    min. upd. commit : 7e6e23c19d98d25ff996ad53fe3966b13a821330
+    initial commit : 2610cdc30dd44e7608a3f24891539f51505d8e32
+    desc :
+         first normal release of dmenu distribution
+         added "(0) version" to the command list
+```
+
+### 1.5x
+
+#### 1.5 (cli)
+
+```
+    dev phase : delta (stable)
+    initial commit : f018580264c47191b7958c52dec85a3031ebba9d
+    desc :
+         not much changes
+```
+
+#### 1.5-d (dmenu)
+
+```
+    dev phase : alpha (unstable)
+    min. upd. commit (not so minor) : f018580264c47191b7958c52dec85a3031ebba9d
+    initial commit : 1d9411dd29d30c20b4dfd0cb82486a7a7ed0367b
+    desc :
+         first dmenu distribution, instable
+```
+
 ### 1.4.2
 
 ```
