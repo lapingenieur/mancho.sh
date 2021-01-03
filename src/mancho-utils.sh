@@ -86,6 +86,17 @@ utils_quickhelp(){
 USAGE :
    mancho-utils COMMAND [COMMAND_OPTION]...
    mancho-utils OPTION...
+
+COMMAND : inculded utility function to execute
+COMMAND_OPTION : options given to utility functions
+OPTION : options given to mancho-utils.sh
+   --version, -v	print the current version
+   --verbose, -V	use verbosing mode
+   --help, -h		print this short help page
+   --long, -l		open mancho-utils.sh's manual page
+   --exec ARG...	execute the following commands internally
+
+More infos in the manual page
 EOF
 }
 
@@ -105,7 +116,7 @@ then
 	unset arg
 ##### second argument detection : running actions
 	until test $# = 0
-	do
+	do	# I don't like using single dashed long styled options like '-help' but I still put -help and -version for those who want it that way
 		case "$1" in
 			"--verbose" | "-V" ) true ;;	# --verbose == true because it's detected above
 			"-version" | "--version" | "--vers" | "-v" ) version 3 ;;
