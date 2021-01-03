@@ -15,6 +15,7 @@
 vers=2.0	# current version
 verbose=0	# 1=verbosing mode (log things to stdout)
 author="lapingenieur"	# list of authors
+repo="https://github.com/lapingenieur/mancho.sh"
 
 # The following variables are some kind of constants (which actually don't exist in bash)
 # They are only used to simplify editing
@@ -76,6 +77,7 @@ version(){
 }
 
 utils_quickhelp(){
+# utils_quickhelp - print the quick help (help's version = uqh_vers var)
 	uqh_vers=2.0
 	version 3
 	vecho 0 "utils_quickhelp version : $uqh_vers"
@@ -98,6 +100,45 @@ OPTION : options given to mancho-utils.sh
 
 More infos in the manual page
 EOF
+}
+
+ping-repo(){
+# ping-repo - test if mancho.sh's repo is reachable
+# usage : ping-repo [n|no-echo]
+# n, no-echo : no output (silent mode, only prints verboses if active)
+	no=0
+	case "$1" in
+		"n" | "no-echo" ) no=1 ;;
+		* ) log "utils.ping-repo/err" "wrong arg 1 ('$1') => skipping arg 1" ;;
+	esac
+	if curl -Is -m 2 $repo > /dev/null	# '-m 2' means max 2 seconds
+	then
+		test $no = 0 && echo "fetched the repo"
+		unset no
+		exit 0
+	else
+		test $no = 0 && echo "repo is not reachable"
+		unset no
+		exit 1
+	fi
+}
+
+update(){
+# Updating function
+# usage : update OPTION...
+# options for OPTION :
+#   s, search	search for available updates
+#   n, no-echo	no output (silent mode, only prints verboses if active)
+	no=0
+	until test $# = 0
+	do
+		case "$1" in
+			"s" | "search" ) ;;
+			"n" | "no-echo" ) no=1 ;;
+			* ) log "utils.update/err" "wrong arg 1 ('$1') => skipping arg 1" ;;
+		esac
+	done
+	unset no
 }
 
 ### mancho-utils.sh arguments detection/decoding ###
