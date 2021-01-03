@@ -36,22 +36,25 @@ log(){
 }
 
 vecho(){
-# vecho - verbosing echo
+# vecho - verbosing echo . revision 2
 # print only if $verbose == 1
 # usage : vecho EOPT PRINT
-#   EOPT : wether PRINT contains escapes (add -e or not), boolean value (1 = use -e, 0 = don't use -e)
+#   EOPT : wether PRINT contains escapes (add -e or not) AND wether print "verb: " before PRINT
+#     `=> 0 = no -e,  no verb
+#     `=> 1 = use -e, no verb
+#     `=> 2 = no -e,  print verb
+#     `=> 3 = use -e, print verb
 #   PRINT : string to print out
+# rev 2 : added options to (not) print "verb"
 	if test "$verbose" = 1
 	then
-		if test "$1" = "1"
-		then
-			echo -e "verb: $2"
-		elif test "$1" = "0"
-		then
-			echo "verb: $2"
-		else
-			log "utils.vecho/warn" "wrong arg 1 ('$1') => not verbosing"
-		fi
+		case "$1" in
+			0) echo "$2" ;;
+			1) echo -e "$2" ;;
+			2) echo "verb: $2" ;;
+			3) echo -e "verb: $2" ;;
+			*) log "utils.vecho/warn" "wrong arg 1 ('$1') => not verbosing" ;;
+		esac
 	fi
 }
 
@@ -69,7 +72,7 @@ version(){
 utils_quickhelp(){
 	uqh_vers=2.0
 	version 3
-	vech
+	vecho 0 ""
 }
 
-vecho "0" "wrong try"
+utils_quickhelp
