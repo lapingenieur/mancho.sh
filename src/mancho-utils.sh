@@ -109,17 +109,18 @@ ping-repo(){
 	no=0
 	case "$1" in
 		"n" | "no-echo" ) no=1 ;;
+		"" ) true ;;
 		* ) log "utils.ping-repo/err" "wrong arg 1 ('$1') => skipping arg 1" ;;
 	esac
 	if curl -Is -m 2 $repo > /dev/null	# '-m 2' means max 2 seconds
 	then
 		test $no = 0 && echo "fetched the repo"
 		unset no
-		exit 0
+		return 0
 	else
 		test $no = 0 && echo "repo is not reachable"
 		unset no
-		exit 1
+		return 1
 	fi
 }
 
@@ -133,12 +134,21 @@ update(){
 	until test $# = 0
 	do
 		case "$1" in
-			"s" | "search" ) ;;
+			"s" | "search" )
+				if ping-repo n
+				then
+					echo "update : reached the repo"
+				else
+					echo -e "\033[0;33;1mERR : Update/search : repo is not reachable\033[0m"
+				fi
+				;;
 			"n" | "no-echo" ) no=1 ;;
 			* ) log "utils.update/err" "wrong arg 1 ('$1') => skipping arg 1" ;;
 		esac
+		shift
 	done
 	unset no
+	echo "update : done"
 }
 
 ### mancho-utils.sh arguments detection/decoding ###
