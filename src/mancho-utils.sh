@@ -16,6 +16,7 @@ vers=2.0	# current version
 verbose=0	# 1=verbosing mode (log things to stdout)
 author="lapingenieur"	# list of authors
 repo="https://github.com/lapingenieur/mancho.sh"
+repo_raw="https://raw.githubusercontent.com/lapingenieur/mancho.sh"
 
 # The following variables are some kind of constants (which actually don't exist in bash)
 # They are only used to simplify editing
@@ -29,7 +30,8 @@ log(){
 # usage : log PRE MSG
 #   PRE : infos about where comes the error and its type (PRE means Pre-message)
 #     `=> by ex. 'utils.vecho/warn' : warning in mancho-utils in function vecho
-#     `=> types can be anything, but should be warn (warning), err (error, continues), cri (critical error but continues), fatal (like cri but exits)
+#     `=> types can be anything, but should be warn (warning), err (error, continues), cri (critical error but continues), fatal (like cri but exits).
+#     `=> if an intern function cannot continue but the rest of the program will, add "-exit" to the type (doesn't work with cri : utils must exit)
 #   MSG : the message to give/log
 # example : 'log "utils.utils_quickhelp/err" "wrong qhelp vers ('1.3', old)"'
 #   `=> outputs (by ex.) 'log: 10d03m2021@12:10:44 v2.0/utils.utils_quickhelp/err : wrong qhelp vers ('1.3', old)'
@@ -90,6 +92,8 @@ USAGE :
    mancho-utils OPTION...
 
 COMMAND : inculded utility function to execute
+   update		manage mancho*.sh updates
+   ping-repo		returns 0 if repository is reachable
 COMMAND_OPTION : options given to utility functions
 OPTION : options given to mancho-utils.sh
    --version, -v	print the current version
@@ -107,21 +111,41 @@ ping-repo(){
 # usage : ping-repo [n|no-echo]
 # n, no-echo : no output (silent mode, only prints verboses if active)
 	no=0
+	ping_repo="repo"
 	case "$1" in
 		"n" | "no-echo" ) no=1 ;;
+		"r" | "raw" ) ping_repo="raw" ;;
 		"" ) true ;;
 		* ) log "utils.ping-repo/err" "wrong arg 1 ('$1') => skipping arg 1" ;;
 	esac
-	if curl -Is -m 2 $repo > /dev/null	# '-m 2' means max 2 seconds
-	then
-		test $no = 0 && echo "fetched the repo"
-		unset no
-		return 0
-	else
-		test $no = 0 && echo "repo is not reachable"
-		unset no
-		return 1
-	fi
+	case "$ping_repo" in
+		"repo" )
+			if curl -Is -m 2 $repo > /dev/null	# '-m 2' means max 2 seconds
+			then
+				test $no = 0 && echo "fetched the repo"
+				unset no
+				return 0
+			else
+				test $no = 0 && echo "repo is not reachable"
+				unset no
+				return 1
+			fi ;;
+		"raw" )
+			if curl -Is -m 2 $repo_raw > /dev/null	# '-m 2' means max 2 seconds
+			then
+				test $no = 0 && echo "fetched the raw repo"
+				unset no
+				return 0
+			else
+				test $no = 0 && echo "repo is not raw reachable"
+				unset no
+				return 1
+			fi ;;
+		* ) log "utils.ping-repo/err" "wrong \$ping_repo value '$ping_repo' => return 2"
+			test $no = 
+			unset no
+			return 3 ;;
+	esac
 }
 
 update(){
@@ -134,6 +158,7 @@ update(){
 	until test $# = 0
 	do
 		case "$1" in
+			"n" | "no-echo" ) no=1 ;;
 			"s" | "search" )
 				if ping-repo n
 				then
@@ -142,7 +167,7 @@ update(){
 					echo -e "\033[0;33;1mERR : Update/search : repo is not reachable\033[0m"
 				fi
 				;;
-			"n" | "no-echo" ) no=1 ;;
+			"i" | "install" | "" ) true ;;
 			* ) log "utils.update/err" "wrong arg 1 ('$1') => skipping arg 1" ;;
 		esac
 		shift
@@ -174,8 +199,12 @@ then
 			"-help" | "--help" | "-h" ) utils_quickhelp ;;
 			"--exec" ) shift
 				$*
-				shift $#	# shifting until 0 to skip every other argument
+				shift $(($# - 1))	# shifting until 0 to skip every other argument
 				;;
+			"update" | "upd" | "u" )
+				shift
+				update $*
+				shift $(($# - 1));;
 			* ) echo "This argument is unknown : '$1'" ;;
 		esac
 		test $# != 0 && shift
