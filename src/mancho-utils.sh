@@ -9,14 +9,25 @@
 # made by lapingenieur _
 # posted over github.com/lapingenieur/mancho.sh
 
+### NOTE ABOUT THE TIME/DATE FORMAT ###
+# 
+# Because the time formats aren't the same in each country, I decided to make it readable by anyone. It looks like this :
+#   13d01m2021@10:41:27.338878621
+# This means : on January 13th 2021 at 10 hour (in 24h format, not 12h) 41 minutes 27 seconds and 338878621 nanoseconds
+# You can read it very simply : the value preceding the "d" is the "day", the one before "m" is the month and the 4 digit value is obviously the year.
+# Then "@" means "end of date, now comes time" ; hour:minute:second ; the 9 digits after the dot "." are the nanoseconds
+# Hope you understood !
+
 ### Default Variable Settings ###
 # Do not change values here but in the config file (see help over the github page)
 
+start_time="$(date "+%dd%mm%Y@%T.%N")"	# ~ time when executed, maybe needed for logs
 vers=2.0	# current version
 verbose=0	# 1=verbosing mode (log things to stdout)
 author="lapingenieur"	# list of authors
 repo="https://github.com/lapingenieur/mancho.sh"
 repo_raw="https://raw.githubusercontent.com/lapingenieur/mancho.sh"
+alrd_log=0	# = 0 if no logging during current execution, not = 0 if already logged in current execution
 
 # The following variables are some kind of constants (which actually don't exist in bash)
 # They are only used to simplify editing
@@ -31,11 +42,16 @@ log(){
 #   PRE : infos about where comes the error and its type (PRE means Pre-message)
 #     `=> by ex. 'utils.vecho/warn' : warning in mancho-utils in function vecho
 #     `=> types can be anything, but should be warn (warning), err (error, continues), cri (critical error but continues), fatal (like cri but exits).
-#     `=> if an intern function cannot continue but the rest of the program will, add "-exit" to the type (doesn't work with cri : utils must exit)
+#     `=> if an intern function cannot continue but the rest of the program will, add "-exit (<exit code>)" to the type (doesn't work with cri : utils must exit)
 #   MSG : the message to give/log
 # example : 'log "utils.utils_quickhelp/err" "wrong qhelp vers ('1.3', old)"'
 #   `=> outputs (by ex.) 'log: 10d03m2021@12:10:44 v2.0/utils.utils_quickhelp/err : wrong qhelp vers ('1.3', old)'
-	echo "log: $(date "+%dd%mm%Y@%H:%M:%S") v$vers/$1 : $2"
+	if test $alrd_log = 0
+	then
+		echo " === mancho-utils.sh v$vers pid=$$ start-date=$start_time ==="
+		alrd_log=1
+	fi
+	echo "log: $(date "+%dd%mm%Y@%T.%N") v$vers/$1 : $2"
 }
 
 vecho(){
@@ -92,7 +108,9 @@ USAGE :
    mancho-utils OPTION...
 
 COMMAND : inculded utility function to execute
+NOTE : some are not so useful for users themselves (like log)
    update		manage mancho*.sh updates
+   log			print out logs in a log file
    ping-repo		returns 0 if repository is reachable
 COMMAND_OPTION : options given to utility functions
 OPTION : options given to mancho-utils.sh
@@ -112,6 +130,7 @@ ping-repo(){
 # n, no-echo : no output (silent mode, only prints verboses if active)
 	no=0
 	ping_repo="repo"
+	ping_timeout=10	# max time in seconds
 	case "$1" in
 		"n" | "no-echo" ) no=1 ;;
 		"r" | "raw" ) ping_repo="raw" ;;
@@ -120,7 +139,7 @@ ping-repo(){
 	esac
 	case "$ping_repo" in
 		"repo" )
-			if curl -Is -m 2 $repo > /dev/null	# '-m 2' means max 2 seconds
+			if curl -Is -m $ping_timeout $repo > /dev/null	# '-m .' means max . seconds
 			then
 				test $no = 0 && echo "fetched the repo"
 				unset no
@@ -131,7 +150,7 @@ ping-repo(){
 				return 1
 			fi ;;
 		"raw" )
-			if curl -Is -m 2 $repo_raw > /dev/null	# '-m 2' means max 2 seconds
+			if curl -Is -m $ping_timeout $repo_raw > /dev/null	# '-m .' means max . seconds
 			then
 				test $no = 0 && echo "fetched the raw repo"
 				unset no
@@ -141,8 +160,8 @@ ping-repo(){
 				unset no
 				return 1
 			fi ;;
-		* ) log "utils.ping-repo/err" "wrong \$ping_repo value '$ping_repo' => return 2"
-			test $no = 
+		* ) log "utils.ping-repo/err-exit (2)" "wrong \$ping_repo value '$ping_repo'"
+			test $no = 0 && echo -e "\033[0;33merror : wrong address to check (logs $$)\033[0m"
 			unset no
 			return 3 ;;
 	esac
@@ -160,9 +179,20 @@ update(){
 		case "$1" in
 			"n" | "no-echo" ) no=1 ;;
 			"s" | "search" )
+				vecho 0 "update : testing repo connection..."
 				if ping-repo n
 				then
-					echo "update : reached the repo"
+					vecho 0 "update : reached the repo"
+					upd_vers="$(curl --silent https://raw.githubusercontent.com/lapingenieur/mancho.sh/master/version | head -n 1)"
+					vecho 0 "update : online version is $upd_vers"
+					vecho 0 "update : installed version is $vers"
+					if test "$upd_vers" = "$vers"
+					then
+						echo -e "\033[0;32mupdate : already up-to-date (version $vers)\033[0m"
+					else
+						echo -e "\033[0;32mupdate : there's an update !\033[0m"
+						echo -e "\033[0;32mupdate : current version : v$vers, up-to-date version : v$upd_vers\033[0m"
+					fi
 				else
 					echo -e "\033[0;33;1mERR : Update/search : repo is not reachable\033[0m"
 				fi
